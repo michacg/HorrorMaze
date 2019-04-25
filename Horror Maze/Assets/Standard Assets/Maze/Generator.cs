@@ -302,7 +302,7 @@ public class Generator : MonoBehaviour
         List<Pair> connectors = new List<Pair>();
         int multiplier = 1;
 
-        while (UnityEngine.Random.Range(0f, 1f) <= 0.5f / multiplier && roomObj.connectors.Count != 0)
+        while (UnityEngine.Random.Range(0f, 1f) <= 1f / multiplier && roomObj.connectors.Count != 0)
         {
             Pair selection = roomObj.connectors[UnityEngine.Random.Range(0, roomObj.connectors.Count)];
             connectors.Add(selection);
