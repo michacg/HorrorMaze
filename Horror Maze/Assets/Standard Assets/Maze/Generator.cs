@@ -56,6 +56,8 @@ public class Generator : MonoBehaviour
 
         SpawnMaze(); //used for 2d maze generation
 
+        CheckWalls();
+
         PrintArray(mazeArray);
         Debug.Log(crashCheck); 
     }

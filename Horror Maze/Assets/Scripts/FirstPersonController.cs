@@ -86,6 +86,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 Respawn();
             }
+            Debug.Log("Newer new position = " + transform.position);
         }
 
 
@@ -264,11 +265,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Respawn()
         {
+            m_MoveDir = Vector3.zero;
+
             int[] size = GameManager.instance.GetMazeSize();
 
             int new_x = Random.Range(0, size[0]);
             int new_z = Random.Range(0, size[1]);
-            float new_y = gameObject.transform.position.y;
+            float new_y = transform.position.y;
 
             // align is used to figure out which side the player will be
             // respawned at.
@@ -295,6 +298,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     gameObject.transform.position = new Vector3(new_x, new_y, size[0] - 1);
                     break;
             }
+
+            Debug.Log("New position = " + transform.position);
         }
     }
 }
