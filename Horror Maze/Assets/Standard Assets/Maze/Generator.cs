@@ -10,7 +10,7 @@ public class Generator : MonoBehaviour
     public int rows;
     public int cols;
 
-    public static char[,] mazeArray;
+    public static byte[,] mazeArray;
     private List<Room> roomList;
 
     void Awake()
