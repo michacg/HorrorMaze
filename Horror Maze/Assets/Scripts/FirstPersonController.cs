@@ -86,7 +86,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 Respawn();
             }
-            Debug.Log("Newer new position = " + transform.position);
         }
 
 
@@ -265,8 +264,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Respawn()
         {
-            m_MoveDir = Vector3.zero;
-
+            Vector3 new_position = Vector3.zero;
             int[] size = GameManager.instance.GetMazeSize();
 
             int new_x = Random.Range(0, size[0]);
@@ -280,26 +278,32 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 // align == 0: player respawns on left side
                 case 0:
-                    gameObject.transform.position = new Vector3(0, new_y, new_z);
+                    new_position = new Vector3(0, new_y, new_z);
                     break;
 
                 // align == 1: player respawns on right side
                 case 1:
-                    gameObject.transform.position = new Vector3(size[1] - 1, new_y, new_z);
+                    new_position = new Vector3(size[1] - 1, new_y, new_z);
                     break;
 
                 // align == 2: player respanws on top side
                 case 2:
-                    gameObject.transform.position = new Vector3(new_x, new_y, 0);
+                    new_position = new Vector3(new_x, new_y, 0);
                     break;
 
                 // align == 3: player respawns on bottom side
                 case 3:
-                    gameObject.transform.position = new Vector3(new_x, new_y, size[0] - 1);
+                    new_position = new Vector3(new_x, new_y, size[0] - 1);
                     break;
             }
 
             Debug.Log("New position = " + transform.position);
+
+            // Instantiate new Player at new position
+            Instantiate(gameObject, new_position, Quaternion.identity);
+
+            // Delete this gameObject
+            Destroy(gameObject);
         }
     }
 }
