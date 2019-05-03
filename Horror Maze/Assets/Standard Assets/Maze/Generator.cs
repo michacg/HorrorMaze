@@ -10,7 +10,7 @@ public class Generator : MonoBehaviour
     public int rows;
     public int cols;
 
-    public static char[,] mazeArray;
+    public static byte[,] mazeArray;
     private List<Room> roomList;
 
     void Awake()
@@ -454,25 +454,50 @@ public class Generator : MonoBehaviour
         }
     }
 
-    /* 
-     * 1 1  
-     * 1 0
-     * 
-     * 
-     * 
-     * 
+    /* Bracket means you are checking at this maze wall
+     *  0  0  0         0  1  0         0  0  0         0  1  0
+     *  0 [1] 1         0 [1] 1         1 [1] 0         1 [1] 0
+     *  0  1  0         0  0  0         0  1  0         0  0  0    
+     *  Corner = 2      Corner = 3      Corner = 4      Corner = 5
+     *  
+     *  0  0  0         0  1  0         0  1  0         0  1  0
+     *  1 [1] 1         1 [1] 1         0 [1] 1         1 [1] 0
+     *  0  1  0         0  0  0         0  1  0         0  1  0
+     *  T-Sect. = 6     T-Sect. = 7     T-Sect. = 8     T-Sect. = 9
      */ 
 
     private void CheckWalls()
     {
+        mazeArray[0, 0] = 2;
+        mazeArray[0, mazeArray.GetLength(1) - 1] = 4;
+        mazeArray[mazeArray.GetLength(0) - 1, 0] = 3;
+        mazeArray[mazeArray.GetLength(0) - 1, mazeArray.GetLength(1) - 1] = 5;
+
         for (int row = 0; row < mazeArray.GetLength(0); row++)
         {
             for (int col = 0; col < mazeArray.GetLength(1); col++)
             {
-                if (row == 0)
+                if (mazeArray[row, col] == 2 || mazeArray[row, col] == 3 || mazeArray[row, col] == 4 || mazeArray[row, col] == 5)
+                    continue;
+                else if (row == 0)
                 {
-                    
-
+                    if (mazeArray[row + 1, col] >= 1 && mazeArray[row + 1, col + 1] == 0 && mazeArray[row + 1, col - 1] == 0)
+                        mazeArray[row, col] = 6;
+                }
+                else if (row == mazeArray.GetLength(0) - 1)
+                {
+                    if (mazeArray[row - 1, col] >= 1 && mazeArray[row - 1, col + 1] == 0 && mazeArray[row - 1, col - 1] == 0) 
+                        mazeArray[row, col] = 7;
+                }
+                else if (col == 0)
+                {
+                    if (mazeArray[row, col + 1] >= 1 && mazeArray[row + 1, col + 1] == 0 && mazeArray[row - 1, col + 1] == 0)
+                        mazeArray[row, col] = 8;
+                }
+                else if (col == mazeArray.GetLength(1) - 1)
+                {
+                    if (mazeArray[row, col - 1] >= 1 && mazeArray[row + 1, col - 1] == 0 && mazeArray[row - 1, col - 1] == 0)
+                        mazeArray[row, col] = 9;
                 }
             }
         }
