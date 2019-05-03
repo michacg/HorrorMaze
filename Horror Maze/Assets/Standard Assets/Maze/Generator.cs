@@ -466,6 +466,11 @@ public class Generator : MonoBehaviour
      *  1 [1] 1         1 [1] 1         0 [1] 1         1 [1] 0
      *  0  1  0         0  0  0         0  1  0         0  1  0
      *  T-Sect. = 6     T-Sect. = 7     T-Sect. = 8     T-Sect. = 9
+     *  
+     *  0  1  0
+     *  1 [1] 1
+     *  0  1  0
+     *  T-Sect. = 10
      */ 
 
     private void CheckWalls()
@@ -500,6 +505,11 @@ public class Generator : MonoBehaviour
                 {
                     if (mazeArray[row, col - 1] >= 1 && mazeArray[row + 1, col - 1] == 0 && mazeArray[row - 1, col - 1] == 0)
                         mazeArray[row, col] = 9;
+                }
+                else if (mazeArray[row, col] == 1 && mazeArray[row - 1, col - 1] == 0 && mazeArray[row - 1, col + 1] == 0 && mazeArray[row + 1, col - 1] == 0 && mazeArray[row + 1, col + 1] == 0)
+                {
+                    if (mazeArray[row - 1, col] >= 1 && mazeArray[row + 1, col] >= 1 && mazeArray[row, col + 1] >= 1 && mazeArray[row, col - 1] >= 1)
+                        mazeArray[row, col] = 10;
                 }
             }
         }
