@@ -10,7 +10,7 @@ public class Generator : MonoBehaviour
     public int rows;
     public int cols;
 
-    private byte[,] mazeArray;
+    public static char[,] mazeArray;
     private List<Room> roomList;
 
     void Awake()
@@ -449,6 +449,30 @@ public class Generator : MonoBehaviour
                 {
                     mazeArray[row, col] = 0;
                     //Debug.LogFormat("Wall removed at {0}", new Pair(row, col));
+                }
+            }
+        }
+    }
+
+    /* 
+     * 1 1  
+     * 1 0
+     * 
+     * 
+     * 
+     * 
+     */ 
+
+    private void CheckWalls()
+    {
+        for (int row = 0; row < mazeArray.GetLength(0); row++)
+        {
+            for (int col = 0; col < mazeArray.GetLength(1); col++)
+            {
+                if (row == 0)
+                {
+                    
+
                 }
             }
         }
