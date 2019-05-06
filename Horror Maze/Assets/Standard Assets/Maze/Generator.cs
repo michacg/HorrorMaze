@@ -59,6 +59,8 @@ public class Generator : MonoBehaviour
 
         CheckWalls();
 
+        CreateExit();
+
         PrintArray(mazeArray);
         Debug.Log(crashCheck); 
     }
@@ -514,6 +516,11 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private void CreateExit()
+    {
+        UnityEngine.Random.Range(0, roomObj.connectors.Count)
     }
 }
 
