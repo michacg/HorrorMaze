@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
+    public GameObject exitPortal;
     public GameObject mazeWall; //very primitive
     //public GameObject fill;
     //public GameObject player;
