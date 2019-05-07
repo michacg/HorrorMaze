@@ -6,8 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    private int maze_rows;
-    private int maze_cols;
+    private Generator generatorScript;
 
     void Awake()
     {
@@ -22,19 +21,24 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        Generator generator = gameObject.GetComponent<Generator>();
-        maze_rows = generator.rows;
-        maze_cols = generator.cols;
+        generatorScript = gameObject.GetComponent<Generator>();
     }
 
     public int[] GetMazeSize()
     {
         int[] result = new int[2];
-        result[0] = maze_rows;
-        result[1] = maze_cols;
+
+        result[0] = generatorScript.rows;
+        result[1] = generatorScript.cols;
 
         return result;
     }
+
+
+    //public byte[,] GetMazeArray()
+    //{
+    //    return generatorScript.mazeArray;
+    //}
 
     /*
     public Maze mazePrefab;
