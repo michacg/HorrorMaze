@@ -6,17 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class ExitPortal : MonoBehaviour
 {
+    public GameObject GM;
+    public Generator GMScript;
+
+    void Start()
+    {
+        GM = GameObject.FindGameObjectWithTag("GameManager");
+        GMScript = GM.GetComponent<Generator>();
+    }
     private void OnTriggerEnter(Collider col)
     {
+
         if(col.GetComponent<Collider>().CompareTag("Player"))
         {
             Debug.Log("GAME IS OVER");
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
             //GameEnded(this);
             //GameManager GMScript = GM.GetComponent<GameManager>();
-            //FindObjectOfType<GameManager>().endGame();
+            //GameObject.FindGameObjectWithTag("GameManager").GetComponent<Generator>().endGamed();
             //Debug.Log(GM.gameOver);
             //GM.endGame();
+            //GMScript.endGame();
         }
     }
 

@@ -34,4 +34,9 @@ public class GameManager : MonoBehaviour
 
         return result;
     }
+    public void endGame()
+    {
+        Debug.Log("HERE");
+        Time.timeScale = 0;
+    }
 }

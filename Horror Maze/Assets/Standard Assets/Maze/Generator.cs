@@ -579,7 +579,5 @@ public class Generator : MonoBehaviour
             return false;
         }
     }
-    
-   
 }
 
