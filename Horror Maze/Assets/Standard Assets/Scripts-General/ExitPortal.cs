@@ -19,14 +19,13 @@ public class ExitPortal : MonoBehaviour
 
         if(col.GetComponent<Collider>().CompareTag("Player"))
         {
-            Debug.Log("GAME IS OVER");
             //Time.timeScale = 0;
             //GameEnded(this);
             //GameManager GMScript = GM.GetComponent<GameManager>();
             //GameObject.FindGameObjectWithTag("GameManager").GetComponent<Generator>().endGamed();
             //Debug.Log(GM.gameOver);
             //GM.endGame();
-            //GMScript.endGame();
+            GMScript.endGame();
         }
     }
 
