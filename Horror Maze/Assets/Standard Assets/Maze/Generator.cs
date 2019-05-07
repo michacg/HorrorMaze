@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
+    public GameObject exitPortal;
     public GameObject mazeWall; //very primitive
     //public GameObject fill;
     //public GameObject player;
@@ -57,6 +58,8 @@ public class Generator : MonoBehaviour
         SpawnMaze(); //used for 2d maze generation
 
         CheckWalls();
+
+        CreateExit();
 
         PrintArray(mazeArray);
         Debug.Log(crashCheck); 
@@ -503,6 +506,11 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private void CreateExit()
+    {
+        UnityEngine.Random.Range(0, roomObj.connectors.Count)
     }
 }
 
