@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     private Generator generatorScript;
 
+
     void Awake()
     {
         if (instance == null)
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
 
         generatorScript = gameObject.GetComponent<Generator>();
     }
-
+    
     public int[] GetMazeSize()
     {
         int[] result = new int[2];

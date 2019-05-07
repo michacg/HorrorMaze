@@ -8,10 +8,6 @@ public class Generator : MonoBehaviour
     //public GameObject fill;
     //public GameObject player;
 
-    // Trap public variables
-    public int trapNumber;
-    public GameObject trapPrefab;
-
     public int rows;
     public int cols;
 
@@ -33,7 +29,6 @@ public class Generator : MonoBehaviour
         }
 
         GenerateMaze();
-        SpawnTraps();
     }
 
     private void GenerateMaze()
@@ -512,44 +507,79 @@ public class Generator : MonoBehaviour
             }
         }
     }
-    
+
     private void CreateExit()
     {
-        //UnityEngine.Random.Range(0, roomObj.connectors.Count)
-    }
-
-    private void SpawnTraps()
-    {
-        List<Pair> emptyCells = FindEmptyCells();
-
-        for (int count = 0; count < trapNumber; ++count)
+        int randCol;
+        int randRow;
+        while(true) //for testing
         {
-            int index = Random.Range(0, emptyCells.Count);
-            Vector3 trapPosition = new Vector3(emptyCells[index].second, 0, emptyCells[index].first);
-
-            Instantiate(trapPrefab, trapPosition, Quaternion.identity);
-
-            // Remove the new used trap location from emptyCells.
-            emptyCells.RemoveAt(index);
-        }
-    }
-
-    private List<Pair> FindEmptyCells()
-    {
-        List<Pair> result = new List<Pair>();
-
-        for (int row = 0; row < rows; ++row)
-        {
-            for (int col = 0; col < cols; ++col)
+            randCol = UnityEngine.Random.Range((int)((cols/2) - (0.2 * cols)), (int)((cols/2) + (0.2 * cols)));
+            randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
+            if(mazeArray[randRow, randCol] == 0)
             {
-                if (mazeArray[row, col] == 0)
+                if(checkSurroundings(randRow, randCol))
                 {
-                    result.Add(new Pair(row, col));
+                    Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
+                    break;
                 }
             }
+            /* 
+            Debug.Log("ROW: " + rows);
+            Debug.Log("COL: " + cols);
+            
+            Debug.Log("RANDCOL: " + randCol);
+            Debug.Log("RANDROW: " + randRow);
+            */
+        }
+    }
+
+    private bool checkSurroundings(int x, int y)
+    {
+        int count = 0;
+        if(mazeArray[x + 1, y] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x + 1, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x, y - 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y - 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x + 1, y - 1] != 0)
+        {
+            count++;
         }
 
-        return result;
+        if(count < 2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
+    
+   
 }
 
