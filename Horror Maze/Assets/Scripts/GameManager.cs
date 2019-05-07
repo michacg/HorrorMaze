@@ -34,4 +34,9 @@ public class GameManager : MonoBehaviour
 
         return result;
     }
+
+    public void GameWon()
+    {
+        Debug.Log("SUCCESS");
+    }
 }
