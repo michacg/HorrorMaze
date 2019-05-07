@@ -510,7 +510,7 @@ public class Generator : MonoBehaviour
     
     private void CreateExit()
     {
-        UnityEngine.Random.Range(0, roomObj.connectors.Count)
+        //UnityEngine.Random.Range(0, roomObj.connectors.Count)
     }
 }
 
