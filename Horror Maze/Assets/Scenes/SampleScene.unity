@@ -476,6 +476,8 @@ MonoBehaviour:
     type: 3}
   mazeWall: {fileID: 6920837182052808178, guid: 45c59b848c785034ab136856865b03fb,
     type: 3}
+  trapNumber: 0
+  trapPrefab: {fileID: 0}
   rows: 51
   cols: 51
 --- !u!114 &1845274342
