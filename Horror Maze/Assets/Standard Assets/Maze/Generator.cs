@@ -190,14 +190,14 @@ public class Generator : MonoBehaviour
 
     private void SpawnMaze()
     {
-        float bounds = rows / 2;
+        //float bounds = rows / 2;
 
         for (int row = 0; row < mazeArray.GetLength(0); row++)
         {
             for (int col = 0; col < mazeArray.GetLength(1); col++)
             {
                 if (mazeArray[row, col] == 1)
-                    Instantiate(mazeWall, new Vector3(-bounds + col, 1, bounds - row), Quaternion.identity);
+                    Instantiate(mazeWall, new Vector3(0.5f + col, 1, 0.5f + row ), Quaternion.identity);
                 /*
                 else if (mazeArray[row, col] == 0)
                     Instantiate(fill, new Vector2(-bounds + col, bounds - row), Quaternion.identity);
@@ -520,7 +520,7 @@ public class Generator : MonoBehaviour
     
     private void CreateExit()
     {
-        UnityEngine.Random.Range(0, roomObj.connectors.Count)
+        //UnityEngine.Random.Range(0, roomObj.connectors.Count)
     }
 }
 
