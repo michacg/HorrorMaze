@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class TrapTrigger : MonoBehaviour
 {
-    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.position = player.transform.position + new Vector3(0, 0, 10);
+
     }
 
     // Update is called once per frame
@@ -20,6 +19,7 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("At least something is detected");
         if (other.gameObject.tag.Equals("Player"))
         {
             // Move respawn code from FirstPersonController here. 
@@ -72,7 +72,7 @@ public class TrapTrigger : MonoBehaviour
 
         // Define a new position to spawn the player.
         float new_y = transform.position.y;
-        Vector3 new_position = new Vector3(temp[0], new_y, temp[1]);
+        Vector3 new_position = new Vector3(temp[1], new_y, temp[0]);
 
         // Instantiate new Player at new position
         Instantiate(other, new_position, Quaternion.identity);

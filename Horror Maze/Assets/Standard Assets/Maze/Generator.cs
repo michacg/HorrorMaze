@@ -8,6 +8,10 @@ public class Generator : MonoBehaviour
     //public GameObject fill;
     //public GameObject player;
 
+    // Trap public variables
+    public int trapNumber;
+    public GameObject trapPrefab;
+
     public int rows;
     public int cols;
 
@@ -29,6 +33,7 @@ public class Generator : MonoBehaviour
         }
 
         GenerateMaze();
+        SpawnTraps();
     }
 
     private void GenerateMaze()
@@ -511,6 +516,40 @@ public class Generator : MonoBehaviour
     private void CreateExit()
     {
         //UnityEngine.Random.Range(0, roomObj.connectors.Count)
+    }
+
+    private void SpawnTraps()
+    {
+        List<Pair> emptyCells = FindEmptyCells();
+
+        for (int count = 0; count < trapNumber; ++count)
+        {
+            int index = Random.Range(0, emptyCells.Count);
+            Vector3 trapPosition = new Vector3(emptyCells[index].second, 0, emptyCells[index].first);
+
+            Instantiate(trapPrefab, trapPosition, Quaternion.identity);
+
+            // Remove the new used trap location from emptyCells.
+            emptyCells.RemoveAt(index);
+        }
+    }
+
+    private List<Pair> FindEmptyCells()
+    {
+        List<Pair> result = new List<Pair>();
+
+        for (int row = 0; row < rows; ++row)
+        {
+            for (int col = 0; col < cols; ++col)
+            {
+                if (mazeArray[row, col] == 0)
+                {
+                    result.Add(new Pair(row, col));
+                }
+            }
+        }
+
+        return result;
     }
 }
 
