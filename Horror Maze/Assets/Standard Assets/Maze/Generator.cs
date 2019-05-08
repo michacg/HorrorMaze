@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
+    public GameObject exitPortal;
     public GameObject mazeWall; //very primitive
     //public GameObject fill;
     //public GameObject player;
 
+    // Trap public variables
+    public int trapNumber;
+    public GameObject trapPrefab;
+
     public int rows;
     public int cols;
 
-    public static char[,] mazeArray;
+    public static byte[,] mazeArray;
     private List<Room> roomList;
 
     void Awake()
@@ -28,6 +33,8 @@ public class Generator : MonoBehaviour
         }
 
         GenerateMaze();
+
+        SpawnTraps();
     }
 
     private void GenerateMaze()
@@ -55,6 +62,10 @@ public class Generator : MonoBehaviour
         DeleteSingles();
 
         SpawnMaze(); //used for 2d maze generation
+
+        CheckWalls();
+
+        CreateExit();
 
         PrintArray(mazeArray);
         Debug.Log(crashCheck); 
@@ -185,14 +196,14 @@ public class Generator : MonoBehaviour
 
     private void SpawnMaze()
     {
-        float bounds = rows / 2;
+        //float bounds = rows / 2;
 
         for (int row = 0; row < mazeArray.GetLength(0); row++)
         {
             for (int col = 0; col < mazeArray.GetLength(1); col++)
             {
                 if (mazeArray[row, col] == 1)
-                    Instantiate(mazeWall, new Vector3(-bounds + col, 1, bounds - row), Quaternion.identity);
+                    Instantiate(mazeWall, new Vector3(0.5f + col, 1, 0.5f + row ), Quaternion.identity);
                 /*
                 else if (mazeArray[row, col] == 0)
                     Instantiate(fill, new Vector2(-bounds + col, bounds - row), Quaternion.identity);
@@ -454,28 +465,172 @@ public class Generator : MonoBehaviour
         }
     }
 
-    /* 
-     * 1 1  
-     * 1 0
-     * 
-     * 
-     * 
-     * 
+    /* Bracket means you are checking at this maze wall
+     *  0  0  0         0  1  0         0  0  0         0  1  0
+     *  0 [1] 1         0 [1] 1         1 [1] 0         1 [1] 0
+     *  0  1  0         0  0  0         0  1  0         0  0  0    
+     *  Corner = 2      Corner = 3      Corner = 4      Corner = 5
+     *  
+     *  0  0  0         0  1  0         0  1  0         0  1  0
+     *  1 [1] 1         1 [1] 1         0 [1] 1         1 [1] 0
+     *  0  1  0         0  0  0         0  1  0         0  1  0
+     *  T-Sect. = 6     T-Sect. = 7     T-Sect. = 8     T-Sect. = 9
      */ 
 
     private void CheckWalls()
     {
+        mazeArray[0, 0] = 2;
+        mazeArray[0, mazeArray.GetLength(1) - 1] = 4;
+        mazeArray[mazeArray.GetLength(0) - 1, 0] = 3;
+        mazeArray[mazeArray.GetLength(0) - 1, mazeArray.GetLength(1) - 1] = 5;
+
         for (int row = 0; row < mazeArray.GetLength(0); row++)
         {
             for (int col = 0; col < mazeArray.GetLength(1); col++)
             {
-                if (row == 0)
+                if (mazeArray[row, col] == 2 || mazeArray[row, col] == 3 || mazeArray[row, col] == 4 || mazeArray[row, col] == 5)
+                    continue;
+                else if (row == 0)
                 {
-                    
-
+                    if (mazeArray[row + 1, col] >= 1 && mazeArray[row + 1, col + 1] == 0 && mazeArray[row + 1, col - 1] == 0)
+                        mazeArray[row, col] = 6;
+                }
+                else if (row == mazeArray.GetLength(0) - 1)
+                {
+                    if (mazeArray[row - 1, col] >= 1 && mazeArray[row - 1, col + 1] == 0 && mazeArray[row - 1, col - 1] == 0) 
+                        mazeArray[row, col] = 7;
+                }
+                else if (col == 0)
+                {
+                    if (mazeArray[row, col + 1] >= 1 && mazeArray[row + 1, col + 1] == 0 && mazeArray[row - 1, col + 1] == 0)
+                        mazeArray[row, col] = 8;
+                }
+                else if (col == mazeArray.GetLength(1) - 1)
+                {
+                    if (mazeArray[row, col - 1] >= 1 && mazeArray[row + 1, col - 1] == 0 && mazeArray[row - 1, col - 1] == 0)
+                        mazeArray[row, col] = 9;
                 }
             }
         }
+    }
+
+    private void SpawnTraps()
+    {
+        List<Pair> emptyCells = FindEmptyCells();
+
+        for (int count = 0; count < trapNumber; ++count)
+        {
+            // If there are no more empty cells, stop spawning traps.
+            // Ideally, this would never happen because then the player
+            // is fucked.
+            if (emptyCells.Count == 0)
+                break;
+
+            int index = Random.Range(0, emptyCells.Count);
+            Vector3 trapPosition = new Vector3(emptyCells[index].second, 0, emptyCells[index].first);
+
+            Instantiate(trapPrefab, trapPosition, Quaternion.identity);
+
+            // Remove the new used trap location from emptyCells.
+            emptyCells.RemoveAt(index);
+        }
+    }
+
+    private List<Pair> FindEmptyCells()
+    {
+        List<Pair> result = new List<Pair>();
+
+        for (int row = 0; row < rows; ++row)
+        {
+            for (int col = 0; col < cols; ++col)
+            {
+                if (mazeArray[row, col] == 0)
+                {
+                    result.Add(new Pair(row, col));
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private void CreateExit()
+    {
+        int randCol;
+        int randRow;
+        while(true) //for testing
+        {
+            randCol = UnityEngine.Random.Range((int)((cols/2) - (0.2 * cols)), (int)((cols/2) + (0.2 * cols)));
+            randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
+            if(mazeArray[randRow, randCol] == 0)
+            {
+                if(checkSurroundings(randRow, randCol))
+                {
+                    Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
+                    break;
+                }
+            }
+            /* 
+            Debug.Log("ROW: " + rows);
+            Debug.Log("COL: " + cols);
+            
+            Debug.Log("RANDCOL: " + randCol);
+            Debug.Log("RANDROW: " + randRow);
+            */
+        }
+    }
+
+    private bool checkSurroundings(int x, int y)
+    {
+        int count = 0;
+        if(mazeArray[x + 1, y] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x + 1, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x, y - 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y - 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x - 1, y + 1] != 0)
+        {
+            count++;
+        }
+        if(mazeArray[x + 1, y - 1] != 0)
+        {
+            count++;
+        }
+
+        if(count < 2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void endGame()
+    {
+        Debug.Log("GameIsOver");
+        Time.timeScale = 0;
+
     }
 }
 
