@@ -4,38 +4,20 @@ using UnityEngine;
 
 public class TrapTrigger : MonoBehaviour
 {
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject monsterPrefab;
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("At least something is detected");
         if (other.gameObject.tag.Equals("Player"))
         {
-            // Move respawn code from FirstPersonController here. 
-            Debug.Log("Replacing current body with monster body");
-
-            Debug.Log("Respawning player in a new location");
             Respawn(other.gameObject);
         }
     }
 
-    private void Respawn(GameObject other)
+    // Respawn is made public so that the MonsterController
+    // script can reuse the player respawn code.
+    public void Respawn(GameObject other)
     {
-        // Get maze instance information.
-        int[] size = GameManager.instance.GetMazeSize();
-        byte[,] mazeArray = Generator.mazeArray;
-
         // Forward definition for variables used inside
         // the switch-case block.
         List<int[]> empty_cells = new List<int[]>();
@@ -67,18 +49,27 @@ public class TrapTrigger : MonoBehaviour
         }
 
         int index = Random.Range(0, empty_cells.Count);
-        Debug.Log(empty_cells + "; " + index);
         int[] temp = empty_cells[index];
 
         // Define a new position to spawn the player.
-        float new_y = transform.position.y;
-        Vector3 new_position = new Vector3(temp[1], new_y, temp[0]);
+        Vector3 new_position = new Vector3(temp[1], 0.7f, temp[0]);
 
-        // Instantiate new Player at new position
-        Instantiate(other, new_position, Quaternion.identity);
+        // Instantiate new Player at new position, and set it as the player 
+        // in GameManager.
+        GameObject new_player = Instantiate(other, new_position, Quaternion.identity);
+        GameManager.instance.SetPlayerGO(new_player);
 
-        // Replace this body with a monster gameobject
+        // Delete the player GameObject.
         Destroy(other);
+
+        // Replace this body with a monster gameobject.
+        Vector3 old_position = transform.position;
+
+        // Quaternion Euler here is used to make the dead body 
+        // lie in horizontal position to represent a dead body.
+        GameObject monster = Instantiate(monsterPrefab, old_position, Quaternion.Euler(-90f, 0f, 0f));
+
+        GameManager.instance.IncrementDeath(monster);
     }
 
     private List<int[]> FindEmptyCells(bool row_restricted, bool start_restircted)
