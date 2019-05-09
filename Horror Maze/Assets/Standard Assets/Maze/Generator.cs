@@ -11,6 +11,7 @@ public class Generator : MonoBehaviour
     // Trap public variables
     public int trapNumber;
     public GameObject trapPrefab;
+    public GameObject ceilingTile;
 
     public int rows;
     public int cols;
@@ -35,6 +36,8 @@ public class Generator : MonoBehaviour
         GenerateMaze();
 
         SpawnTraps();
+
+        CreateCeiling();
     }
 
     private void GenerateMaze()
@@ -623,6 +626,17 @@ public class Generator : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public void CreateCeiling()
+    {
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                Instantiate(ceilingTile, new Vector3(0.5f + i, 2, 0.5f + j ), Quaternion.identity);
+            }
         }
     }
 }
