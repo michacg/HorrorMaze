@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 14300000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_SkinWidth
-      value: 0.25
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_WalkSpeed
@@ -293,6 +293,10 @@ PrefabInstance:
     - target: {fileID: 8200000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: MinDistance
       value: 0.05353248
+      objectReference: {fileID: 0}
+    - target: {fileID: 2000000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: near clip plane
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
@@ -476,8 +480,9 @@ MonoBehaviour:
     type: 3}
   mazeWall: {fileID: 6920837182052808178, guid: 45c59b848c785034ab136856865b03fb,
     type: 3}
-  trapNumber: 0
-  trapPrefab: {fileID: 0}
+  trapNumber: 10
+  trapPrefab: {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
+    type: 3}
   rows: 51
   cols: 51
 --- !u!114 &1845274342
@@ -492,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a058f1007ac1734a8604f09673ba832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterTransformationTurns: 5
 --- !u!4 &1845274343
 Transform:
   m_ObjectHideFlags: 0
