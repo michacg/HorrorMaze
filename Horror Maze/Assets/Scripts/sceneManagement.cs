@@ -10,6 +10,7 @@ public class sceneManagement : MonoBehaviour
     public static sceneManagement instance;
     public bool sceneFlag = false;
     public sceneMusic[] relations;
+    sceneMusic s = null;
 
     void Awake()
     {
@@ -31,11 +32,19 @@ public class sceneManagement : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         sceneFlag = true;   //for background transitions
-
-        scName = scene.name;
-        sceneMusic s = Array.Find(relations, x => x.sceneName == scene.name);
-        if(s != null && AudioManager.instance.currentSong.name != s.songName)  //allows us to have menu theme consistent during all submenus in main menu
-            FindObjectOfType<AudioManager>().Play(s.songName);
+        if(s != null && s.songName != null)
+        {
+            s = Array.Find(relations, x => x.sceneName == scene.name);
+            FindObjectOfType<AudioManager>().DialogueTransitionSong(s.songName);
+        }
+        else
+        {
+            s = Array.Find(relations, x => x.sceneName == scene.name);
+            if(s != null && AudioManager.instance.currentSong.name != s.songName) //allows us to have menu theme consistent during all submenus in main menu
+            {
+                FindObjectOfType<AudioManager>().Play(s.songName);  
+            }
+        }
     }
 
     // called when the game is terminated

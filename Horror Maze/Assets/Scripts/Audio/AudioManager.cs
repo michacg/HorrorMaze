@@ -8,9 +8,7 @@ using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
-    [HideInInspector]
     public float fadeInTime;  //affects how long it takes to fade audio
-    [HideInInspector]
     public float fadeOutTime;
     public Sound[] sounds;
     public static AudioManager instance = null;
@@ -104,9 +102,12 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(WaitForAudioFade());
         Play(songToPlay);
     }
+
     public IEnumerator WaitForAudioFade()   //this function will force the fade to only run when the last fade has completed
     {
         while(CR_running)
+        {
             yield return null;
+        }
     }
 }

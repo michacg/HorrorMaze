@@ -167,6 +167,8 @@ MonoBehaviour:
   relations:
   - sceneName: Start_Menu
     songName: MainMenu
+  - sceneName: SampleScene
+    songName: Ambience
 --- !u!1 &238186856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1418,12 +1420,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932405471}
-        m_MethodName: 
+      - m_Target: {fileID: 932405473}
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1637,12 +1639,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d3a769fabf3044eadf4263cb9e3a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeInTime: 0
-  fadeOutTime: 0
+  fadeInTime: 2
+  fadeOutTime: 2
   sounds:
   - name: MainMenu
-    loop: 0
+    loop: 1
     clip: {fileID: 8300000, guid: 76f934f1c66b3cb40b0ca2f024c7b890, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Ambience
+    loop: 1
+    clip: {fileID: 8300000, guid: 8bd66f71cea6a134ba4e3c6bd2dbf7ec, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
