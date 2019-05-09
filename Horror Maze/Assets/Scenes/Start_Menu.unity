@@ -164,7 +164,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneFlag: 0
-  relations: []
+  relations:
+  - sceneName: Start_Menu
+    songName: MainMenu
 --- !u!1 &238186856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1640,7 @@ MonoBehaviour:
   fadeInTime: 0
   fadeOutTime: 0
   sounds:
-  - name: Start_Menu
+  - name: MainMenu
     loop: 0
     clip: {fileID: 8300000, guid: 76f934f1c66b3cb40b0ca2f024c7b890, type: 3}
     volume: 1
