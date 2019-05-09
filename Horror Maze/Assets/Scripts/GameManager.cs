@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameWon()
+    public void endGame()
     {
-        Debug.Log("SUCCESS");
+        Time.timeScale = 0;
     }
 }
