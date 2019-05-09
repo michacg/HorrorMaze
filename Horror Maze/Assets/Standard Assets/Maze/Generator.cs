@@ -625,12 +625,5 @@ public class Generator : MonoBehaviour
             return false;
         }
     }
-
-    public void endGame()
-    {
-        Debug.Log("GameIsOver");
-        Time.timeScale = 0;
-
-    }
 }
 
