@@ -15,6 +15,8 @@ public class Generator : MonoBehaviour
 
     public int rows;
     public int cols;
+    public int trapPercentage;  //helps determine how many traps to randomly spawn
+    public int trapSpacer; //helps ensure two traps never end up too close too each other
 
     public static byte[,] mazeArray;
     private List<Room> roomList;
@@ -517,6 +519,29 @@ public class Generator : MonoBehaviour
         }
     }
 
+
+    private void SpawnCorridorTraps()  //separating the trap functions allows us to spawn specific traps in specific areas. ex: only spike traps will appear in corridors
+    {
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                
+            }
+        }
+
+    }
+
+    private void SpawnRoomTraps()  //maybe a bait trap will only appear in rooms
+    {
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+
+            }
+        }
+    }
     private void SpawnTraps()
     {
         List<Pair> emptyCells = FindEmptyCells();
@@ -567,23 +592,16 @@ public class Generator : MonoBehaviour
             randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
             if(mazeArray[randRow, randCol] == 0)
             {
-                if(checkSurroundings(randRow, randCol))
+                if(checkSurroundings(randRow, randCol) < 2)
                 {
                     Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
                     break;
                 }
             }
-            /* 
-            Debug.Log("ROW: " + rows);
-            Debug.Log("COL: " + cols);
-            
-            Debug.Log("RANDCOL: " + randCol);
-            Debug.Log("RANDROW: " + randRow);
-            */
         }
     }
 
-    private bool checkSurroundings(int x, int y)
+    private int checkSurroundings(int x, int y)
     {
         int count = 0;
         if(mazeArray[x + 1, y] != 0)
@@ -619,14 +637,7 @@ public class Generator : MonoBehaviour
             count++;
         }
 
-        if(count < 2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return count;
     }
 
     public void CreateCeiling()
