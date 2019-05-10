@@ -11,6 +11,9 @@ public class Generator : MonoBehaviour
     // Trap public variables
     public int trapNumber;
     public GameObject trapPrefab;
+    public GameObject[] corridorTraps; 
+    public GameObject[] roomTraps;
+
     public GameObject ceilingTile;
 
     public int rows;
@@ -601,17 +604,33 @@ public class Generator : MonoBehaviour
         }
     }
 
-    private int checkSurroundings(int x, int y)
+    private int isCorridorOrCorner(int x, int y)  //returns true if piece is a corner piece or a corridor tile
     {
         int count = 0;
         if(mazeArray[x + 1, y] != 0)
         {
-            count++;
+            if(mazeArray[x - 1, y] != 0)
+            {
+                return true;
+            }
         }
         if(mazeArray[x, y + 1] != 0)
         {
-            count++;
+            if(mazeArray[x, y - 1] != 0)
+            {
+                return true;
+            }
         }
+        if(mazeArray[x + 1, y])
+        {
+            if(mazeArray[x, y + 1])
+            {
+                return true;
+            }
+        }
+
+
+
         if(mazeArray[x + 1, y + 1] != 0)
         {
             count++;
