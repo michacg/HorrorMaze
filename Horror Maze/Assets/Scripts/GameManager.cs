@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         generatorScript = gameObject.GetComponent<Generator>();
+
+        AstarPath.active.Scan();
     }
     
     public int[] GetMazeSize()

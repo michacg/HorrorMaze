@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Priority_Queue;
+using Pathfinding;
 
 public class MonsterController : MonoBehaviour
 {
@@ -8,11 +10,35 @@ public class MonsterController : MonoBehaviour
     public TrapTrigger trapScript;
 
     // Ghost customization variables.
-    public int ghostSpeed = 2;
+    public float ghostSpeed = 2;
+
+    // Doll customization variables
+    public float dollSpeed = 4;
+
+    // Brute customization variables
+    public float bruteSpeed = 1;
 
     private int monsterType = 0;
     private GameObject player;
-    
+
+    // AI components
+    private Seeker seeker;
+    private CharacterController controller;
+
+    public Path path;
+    public float nextWaypointDistance = 1;
+    private int currentWaypoint = 0;
+    public bool reachedEndOfPath;
+
+    private void Start()
+    {
+        // Get a reference to the Seeker component we added earlier
+        seeker = GetComponent<Seeker>();
+        // OnPathComplete will be called every time a path is returned to this seeker
+        seeker.pathCallback += OnPathComplete;
+
+        controller = GetComponent<CharacterController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -27,6 +53,11 @@ public class MonsterController : MonoBehaviour
         // walls and fall over. This is to keep them upright.
         transform.eulerAngles = new Vector3(0, 0, 0);
         player = GameManager.instance.GetPlayerGO();
+
+        // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
+        // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
+        // takes to calculate the path. Usually it is called the next frame.
+        seeker.StartPath(transform.position, player.transform.position);
 
         // Different AI types based on the monster.
         // Case 0: monster is still dormant.
@@ -60,12 +91,21 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag.Equals("Player"))
+        {
+            trapScript.Respawn(hit.gameObject);
+        }
+    }
+
     public void Transform()
     {
         // Make monster upright. 
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-        monsterType = Random.Range(1, numMonsterType + 1);
+        monsterType = 2; // debugging AI purposes
+        //monsterType = Random.Range(1, numMonsterType + 1);
 
         // Different AI types based on the monster.
         // Case 0: monster is still dormant.
@@ -94,6 +134,23 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    public void OnPathComplete(Path p)
+    {
+        Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
+
+        if (!p.error)
+        {
+            path = p;
+            // Reset the waypoint counter so that we start to move towards the first point in the path
+            currentWaypoint = 0;
+        }
+    }
+
+    public void OnDisable()
+    {
+        seeker.pathCallback -= OnPathComplete;
+    }
+
     private void GhostAI()
     {
         transform.position = Vector3.MoveTowards(transform.position, 
@@ -102,11 +159,180 @@ public class MonsterController : MonoBehaviour
 
     private void DollAI()
     {
+        if (path == null)
+        {
+            // We have no path to follow yet, so don't do anything
+            return;
+        }
 
+        // Check in a loop if we are close enough to the current waypoint to switch to the next one.
+        // We do this in a loop because many waypoints might be close to each other and we may reach
+        // several of them in the same frame.
+        reachedEndOfPath = false;
+        // The distance to the next waypoint in the path
+        float distanceToWaypoint;
+        while (true)
+        {
+            distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+            if (distanceToWaypoint < nextWaypointDistance)
+            {
+                // Check if there is another waypoint or if we have reached the end of the path
+                if (currentWaypoint + 1 < path.vectorPath.Count)
+                {
+                    currentWaypoint++;
+                }
+                else
+                {
+                    // Set a status variable to indicate that the agent has reached the end of the path.
+                    // You can use this to trigger some special code if your game requires that.
+                    reachedEndOfPath = true;
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        // Slow down smoothly upon approaching the end of the path
+        // This value will smoothly go from 1 to 0 as the agent approaches the last waypoint in the path.
+        //var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
+
+        // Direction to the next waypoint
+        // Normalize it so that it has a length of 1 world unit
+        Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+        // Multiply the direction by our desired speed to get a velocity
+        Vector3 velocity = dir * dollSpeed; // could multiply by speedFactor above
+
+        // Move the agent using the CharacterController component
+        // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
+        controller.SimpleMove(velocity);
+        
+
+        /* Old code
+        Pair currentLocation = ConvertLocationToPair(transform.position);
+        Pair playerLocation = ConvertLocationToPair(player.transform.position);
+
+        Debug.Log("Current: " + currentLocation + "; Player: " + playerLocation);
+
+        List<Pair> path = AStarSearch(currentLocation, playerLocation);
+        string pathstr = "";
+        foreach (Pair pair in path)
+        {
+            pathstr += " -> " + pair;
+        }
+        Debug.Log("Path: " + pathstr);
+        Vector3 towardsLocation = new Vector3(path[0].second, 1, path[0].first);
+        transform.position = Vector3.MoveTowards(transform.position, towardsLocation, dollSpeed * Time.deltaTime);
+        */
+    }
+
+    private Pair ConvertLocationToPair(Vector3 position)
+    {
+        return new Pair(Mathf.RoundToInt(position.z), Mathf.RoundToInt(position.x));
+    }
+
+    private List<Pair> AStarSearch(Pair currentCell, Pair targetCell)
+    {
+        // Priority queue with paths from start node to the next node
+        // that is being searched. Sorted by the F function.
+        // E.g. [A->B (F = 1), A->C (F = 2), A->D->E (F = 20)]
+        SimplePriorityQueue<List<Pair>> priorityQ = new SimplePriorityQueue<List<Pair>>();
+
+        // Start from currentCell. Enqueue all nodes below current. 
+        // Dequeue first node path in priority queue. If the dequeued
+        // node is a goal node, return the path. Otherwise, enqueue 
+        // all nodes below the dequeued.
+
+        List<Pair> dequeued = new List<Pair> { currentCell };
+
+        for (int i = 0; i < 300; i++)
+        {
+            if (dequeued[dequeued.Count - 1] == targetCell)
+            {
+                return dequeued;
+            }
+
+            foreach (Pair cell in FindOpenDirections(dequeued[dequeued.Count - 1]))
+            {
+                dequeued.Add(cell);
+
+                List<Pair> copyDequeued = new List<Pair>(dequeued);
+                priorityQ.EnqueueWithoutDuplicates(copyDequeued, CalculateF(copyDequeued, targetCell));
+
+                // backtracks the path to the original dequeued path before adding the new cell.
+                dequeued.RemoveAt(dequeued.Count - 1);
+            }
+
+            dequeued = priorityQ.Dequeue();
+        }
+
+        //while (dequeued[dequeued.Count - 1] != targetCell && priorityQ.Count != 0)
+        //{
+        //    foreach (Pair cell in FindOpenDirections(dequeued[dequeued.Count - 1]))
+        //    {
+        //        dequeued.Add(cell);
+
+        //        List<Pair> copyDequeued = new List<Pair>(dequeued);
+        //        priorityQ.EnqueueWithoutDuplicates(copyDequeued, CalculateF(dequeued, targetCell));
+
+        //        // backtracks the path to the original dequeued path before adding the new cell.
+        //        dequeued.RemoveAt(dequeued.Count - 1);
+        //    }
+
+        //    dequeued = priorityQ.Dequeue();
+        //}
+
+        return dequeued;
+    }
+
+    private float CalculateF(List<Pair> path, Pair targetCell)
+    {
+        float F = path.Count - 1; // Cost of path so far, subtracting the new move.
+        F += Pair.Distance(path[path.Count - 1], targetCell); // F = G + H
+
+        return F;
+    }
+
+    private List<Pair> FindOpenDirections(Pair currentLocation)
+    {
+        byte[,] mazeArray = Generator.mazeArray;
+        List<Pair> result = new List<Pair>();
+
+        //int row = Mathf.RoundToInt(transform.position.z);
+        //int col = Mathf.RoundToInt(transform.position.x);
+        int row = currentLocation.first;
+        int col = currentLocation.second;
+
+        // If up direction is open
+        if (mazeArray[row + 1, col] == 0)
+        {
+            result.Add(new Pair(row + 1, col));
+        }
+        // If down direction is open
+        if (mazeArray[row - 1, col] == 0)
+        {
+            result.Add(new Pair(row - 1, col));
+        }
+        // If left direction is open
+        if (mazeArray[row, col - 1] == 0)
+        {
+            result.Add(new Pair(row, col + 1));
+        }
+        if (mazeArray[row, col + 1] == 0)
+        {
+            result.Add(new Pair(row, col - 1));
+        }
+
+        return result;
     }
 
     private void BruteAI()
     {
-
+        byte[,] mazeArray = Generator.mazeArray;
+        
+        Vector3 current_location = new Vector3(Mathf.RoundToInt(transform.position.z), 0.5f, Mathf.RoundToInt(transform.position.x));
+        Vector3 position_difference = current_location - player.transform.position;
     }
 }
