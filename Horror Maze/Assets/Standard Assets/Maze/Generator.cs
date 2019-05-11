@@ -19,7 +19,9 @@ public class Generator : MonoBehaviour
     public int rows;
     public int cols;
     public int trapPercentage;  //helps determine how many traps to randomly spawn
-    public int trapSpacer; //helps ensure two traps never end up too close too each other
+    public int trapSpacerX; //bigger number is farther horizontal spacing
+    public int trapSpacerY; //bigger number is farther vertical spacing
+    public int corridorSpawnBoost;  //higher number means higher chance of spawning in a corridor
 
     public static byte[,] mazeArray;
     private List<Room> roomList;
@@ -41,6 +43,8 @@ public class Generator : MonoBehaviour
         GenerateMaze();
 
         SpawnTraps();
+
+        CreateExit();
 
         CreateCeiling();
     }
@@ -72,8 +76,6 @@ public class Generator : MonoBehaviour
         SpawnMaze(); //used for 2d maze generation
 
         CheckWalls();
-
-        CreateExit();
 
         PrintArray(mazeArray);
         Debug.Log(crashCheck); 
@@ -523,28 +525,46 @@ public class Generator : MonoBehaviour
     }
 
 
-    private void SpawnCorridorTraps()  //separating the trap functions allows us to spawn specific traps in specific areas. ex: only spike traps will appear in corridors
+    private void SpawnTraps()  //maybe a bait trap will only appear in rooms
     {
+        int trapCount = trapSpacerX;
+        List<int> trapLocations = new List<int>();
         for(int i = 0; i < rows; i++)
         {
             for(int j = 0; j < cols; j++)
             {
-                
+                if(mazeArray[i, j] == 0 && trapCount >= trapSpacerX && trapLocations.Contains(i) == false)
+                {
+                    if(isCorridor(i, j) && !isCorner(i, j))
+                    {
+                        if((trapPercentage + corridorSpawnBoost) > Random.Range(0, 101))
+                        {
+                            Instantiate(corridorTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            mazeArray[i,j] = 1;
+                            trapLocations.Add(j);
+                            trapCount = 0;
+                        }
+                    }
+                    else if(!isCorridor(i, j) && !isCorner(i, j))
+                    {
+                        if(trapPercentage > Random.Range(0, 101))
+                        {
+                            Instantiate(roomTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            mazeArray[i,j] = 1;
+                            trapLocations.Add(j);
+                            trapCount = 0;
+                        }
+                    }
+                }
+                trapCount++;
             }
-        }
-
-    }
-
-    private void SpawnRoomTraps()  //maybe a bait trap will only appear in rooms
-    {
-        for(int i = 0; i < rows; i++)
-        {
-            for(int j = 0; j < cols; j++)
+            if(i % trapSpacerY == 0)     //resets the trapLocations list in publicly specified intervals
             {
-
+                trapLocations.Clear();
             }
         }
     }
+    /* 
     private void SpawnTraps()
     {
         List<Pair> emptyCells = FindEmptyCells();
@@ -566,7 +586,8 @@ public class Generator : MonoBehaviour
             emptyCells.RemoveAt(index);
         }
     }
-
+    */
+/*
     private List<Pair> FindEmptyCells()
     {
         List<Pair> result = new List<Pair>();
@@ -584,6 +605,7 @@ public class Generator : MonoBehaviour
 
         return result;
     }
+    */
 
     private void CreateExit()
     {
@@ -595,7 +617,7 @@ public class Generator : MonoBehaviour
             randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
             if(mazeArray[randRow, randCol] == 0)
             {
-                if(checkSurroundings(randRow, randCol) < 2)
+                if(!isCorridor(randRow, randCol) && !isCorner(randRow, randCol))
                 {
                     Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
                     break;
@@ -604,9 +626,8 @@ public class Generator : MonoBehaviour
         }
     }
 
-    private int isCorridorOrCorner(int x, int y)  //returns true if piece is a corner piece or a corridor tile
+    private bool isCorridor(int x, int y)  //returns true if piece is a corridor
     {
-        int count = 0;
         if(mazeArray[x + 1, y] != 0)
         {
             if(mazeArray[x - 1, y] != 0)
@@ -621,42 +642,40 @@ public class Generator : MonoBehaviour
                 return true;
             }
         }
-        if(mazeArray[x + 1, y])
+        return false;
+    }
+
+    private bool isCorner(int x, int y)  //returns true if piece is a corner piece
+    {
+        if(mazeArray[x + 1, y] != 0)
         {
-            if(mazeArray[x, y + 1])
+            if(mazeArray[x, y + 1] != 0)
             {
                 return true;
             }
         }
-
-
-
-        if(mazeArray[x + 1, y + 1] != 0)
+        if(mazeArray[x - 1, y] != 0)
         {
-            count++;
+            if(mazeArray[x, y - 1] != 0)
+            {
+                return true;
+            }
         }
         if(mazeArray[x - 1, y] != 0)
         {
-            count++;
+            if( mazeArray[x, y + 1] != 0)
+            {
+                return true;
+            }
         }
-        if(mazeArray[x, y - 1] != 0)
+        if(mazeArray[x + 1, y] != 0)
         {
-            count++;
+            if(mazeArray[x, y - 1] != 0)
+            {
+                return true;
+            }
         }
-        if(mazeArray[x - 1, y - 1] != 0)
-        {
-            count++;
-        }
-        if(mazeArray[x - 1, y + 1] != 0)
-        {
-            count++;
-        }
-        if(mazeArray[x + 1, y - 1] != 0)
-        {
-            count++;
-        }
-
-        return count;
+        return false;
     }
 
     public void CreateCeiling()

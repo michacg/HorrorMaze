@@ -491,8 +491,10 @@ MonoBehaviour:
     type: 3}
   rows: 51
   cols: 51
-  trapPercentage: 0
-  trapSpacer: 0
+  trapPercentage: 2
+  trapSpacerX: 10
+  trapSpacerY: 2
+  corridorSpawnBoost: 10
 --- !u!114 &1845274342
 MonoBehaviour:
   m_ObjectHideFlags: 0
