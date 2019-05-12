@@ -535,7 +535,7 @@ public class Generator : MonoBehaviour
             {
                 if(mazeArray[i, j] == 0 && trapCount >= trapSpacerX && trapLocations.Contains(i) == false)
                 {
-                    if(isCorridor(i, j) && !isCorner(i, j))
+                    if(isCorridor(i, j))
                     {
                         if((trapPercentage + corridorSpawnBoost) > Random.Range(0, 101))
                         {
@@ -545,7 +545,7 @@ public class Generator : MonoBehaviour
                             trapCount = 0;
                         }
                     }
-                    else if(!isCorridor(i, j) && !isCorner(i, j))
+                    else if(!isCorridor(i, j))
                     {
                         if(trapPercentage > Random.Range(0, 101))
                         {
@@ -617,7 +617,7 @@ public class Generator : MonoBehaviour
             randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
             if(mazeArray[randRow, randCol] == 0)
             {
-                if(!isCorridor(randRow, randCol) && !isCorner(randRow, randCol))
+                if(!isCorridor(randRow, randCol))
                 {
                     Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
                     break;
@@ -642,9 +642,50 @@ public class Generator : MonoBehaviour
                 return true;
             }
         }
+        if(mazeArray[x + 1, y] != 0)
+        {
+            if(mazeArray[x, y + 1] != 0)
+            {
+                if(mazeArray[x - 1, y - 1] != 0)
+                {
+                    return true;
+                }
+            }
+        }
+        if(mazeArray[x - 1, y] != 0)
+        {
+            if(mazeArray[x, y - 1] != 0)
+            {
+                if(mazeArray[x + 1, y + 1] != 0)
+                {
+                    return true;
+                }
+            }
+        }
+        if(mazeArray[x - 1, y] != 0)
+        {
+            if( mazeArray[x, y + 1] != 0)
+            {
+                if(mazeArray[x + 1, y - 1] != 0)
+                {
+                    return true;
+                }
+            }
+        }
+        if(mazeArray[x + 1, y] != 0)
+        {
+            if(mazeArray[x, y - 1] != 0)
+            {
+                if(mazeArray[x - 1, y + 1] != 0)
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
+/* 
     private bool isCorner(int x, int y)  //returns true if piece is a corner piece
     {
         if(mazeArray[x + 1, y] != 0)
@@ -677,6 +718,7 @@ public class Generator : MonoBehaviour
         }
         return false;
     }
+    */
 
     public void CreateCeiling()
     {
