@@ -14,7 +14,8 @@ public class ExitPortal : MonoBehaviour
 
         if(col.GetComponent<Collider>().CompareTag("Player"))
         {
-            GameManager.instance.endGame();
+            // GameManager.instance.endGame();
+            SceneManager.LoadScene("GameOverScene");
         }
     }
 
