@@ -46,7 +46,7 @@ public class Generator : MonoBehaviour
 
         CreateExit();
 
-        CreateCeiling();
+        // CreateCeiling();
     }
 
     private void GenerateMaze()
