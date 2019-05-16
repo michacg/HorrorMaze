@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &170076734
 Light:
   m_ObjectHideFlags: 0
@@ -446,6 +446,92 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1395920402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1395920404}
+  - component: {fileID: 1395920403}
+  m_Layer: 0
+  m_Name: A*
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1395920403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395920402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAACAn+vlrsGoSAIAAPAEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtVMuSmzAQ/BWXzkkKu2Bt55ZgrzcHr13rbO2Fi0ADqCwkSo/1q/zvkQQYQnKC6u6Z6XnADVGuasi0kBtJyVYQQN8nyL2jL5OefIEzLgQ/0Ct0mg9KdOlE2GvesKbC4lMXpkQFWtLsBy+YEwcWNJzmQlZrUkAslFYWzjFTYCkptIvmFrpN0LkNuLTPq3tO7vYtA65B9qpZNJLNIq8zPGO4qoE4v7183mWdN+m47aRVONeZYIyq1gbSl9q3GeNaGduEFRCKbVvegMtUAi1K7aoOg3d5rkC3EokvKyrtdJqs6KdoRlZhdWx8fWJmXJ1oOvOemqTb//BTz+dSVC9d4WngiuiSZsc3fMmw0oOhDuFV73zq53PC7IhTBh8l8FexkcJwYkktjQs1CmarQapHc3EJ2bHXNWZHoKn/XeO0X+Pdt3+OGa1Sh3wLG+DAhB/40sWAtKv5ZQ37s1BtJos6E+8KfuNieD8t8Uyl0pZqC3LnLhVGOila+5m5ZoyOheTg4dZzDRwzfdnbNHq8wxE3KDtinrH7UtriLdd9AKMQD/f6IBhRe3F6LEuV4rQFVe6MZpRDb9oRr3ZOseC8ObHhTLqwg5E5zgZhhaHk79tC4QIHIaRZGkVBGs4XX3EYhU9kni4WYbBMl0/I3x7ltk/M9o3Rdjx2a7xPzu2ddT+QyUbi2p87kfi0oddKDEZOeS4OmQTguybDwzhIW8R+lmRNqB3QAbSm3O8b3RLERHYEkjwSJb7T9VlLnPRZElTTT6EdkqDY/zYSdEf3P1BLAwQUAAAICAAAgJ/r5aDGo2wAAAB3AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9Kz0FFQSi9KLMgoBgoYgjilmSkgdrSSiUWigUlqUnKSqalBkom5hW6iiamJWYp5koWFiYFlkqWZUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAACAn+vlrsGoSAIAAPAEAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAACAn+vloMajbAAAAHcAAAAJACQAAAAAAAAAAAAAAJUCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAATAMAAAAA
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
+--- !u!4 &1395920404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395920402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1845274340
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a058f1007ac1734a8604f09673ba832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterTransformationTurns: 5
+  monsterTransformationTurns: 1
 --- !u!4 &1845274343
 Transform:
   m_ObjectHideFlags: 0
