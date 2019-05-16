@@ -51,7 +51,7 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 12
@@ -451,8 +451,15 @@ MonoBehaviour:
   trapNumber: 10
   trapPrefab: {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
     type: 3}
+  corridorTraps: []
+  roomTraps: []
+  ceilingTile: {fileID: 0}
   rows: 51
   cols: 51
+  trapPercentage: 0
+  trapSpacerX: 0
+  trapSpacerY: 0
+  corridorSpawnBoost: 0
 --- !u!114 &1845274342
 MonoBehaviour:
   m_ObjectHideFlags: 0
