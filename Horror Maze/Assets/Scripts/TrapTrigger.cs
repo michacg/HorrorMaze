@@ -10,6 +10,7 @@ public class TrapTrigger : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("Player"))
         {
+            FindObjectOfType<AudioManager>().PlayImmediate("TrapNoise");
             Respawn(other.gameObject);
         }
     }
