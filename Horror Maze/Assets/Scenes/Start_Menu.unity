@@ -1654,8 +1654,22 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  effects:
+  - name: 
+    loop: 0
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 0
+    source: {fileID: 0}
   CR_running: 0
   currentSong:
+    name: 
+    loop: 0
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 0
+    source: {fileID: 0}
+  currentEffect:
     name: 
     loop: 0
     clip: {fileID: 0}

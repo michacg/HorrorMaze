@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public float fadeInTime;  //affects how long it takes to fade audio
     public float fadeOutTime;
     public Sound[] sounds;
+    public Sound[] effects;
     public static AudioManager instance = null;
     private IEnumerator fadeIn;
     private IEnumerator fadeOut;
@@ -18,6 +19,8 @@ public class AudioManager : MonoBehaviour
     public bool CR_running = false;
     [HideInInspector]
     public Sound currentSong;
+    [HideInInspector]
+    public Sound currentEffect;
 
     void Awake()
     {
@@ -31,6 +34,14 @@ public class AudioManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         foreach(Sound track in sounds)  //sets all initial values of audio source to be whats in inspector when those sounds are played
+        {
+            track.source = gameObject.AddComponent<AudioSource>();
+            track.source.clip = track.clip;
+            track.source.volume = track.volume; //sets the initial volume to what is in inspector
+            track.source.pitch = track.pitch;
+            track.source.loop = track.loop;
+        }
+        foreach(Sound track in effects)  //sets all initial values of audio source to be whats in inspector when those sounds are played
         {
             track.source = gameObject.AddComponent<AudioSource>();
             track.source.clip = track.clip;
@@ -57,6 +68,7 @@ public class AudioManager : MonoBehaviour
 
     }
 
+
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -70,6 +82,34 @@ public class AudioManager : MonoBehaviour
         if(s.source.isPlaying)
             StartCoroutine(fadeOut);
     }
+
+
+    public void PlayEffect (string name)  //s.source.volume will adjust actual volume. s.volume will adjust initial value which has no meaning here
+    {
+        Sound s = Array.Find(effects, sound => sound.name == name);
+        currentEffect = s;
+        //s.source.volume = 0f;   //makes sure we always start at zero if last coroutine didnt finish. Take out this line if not necessary
+        if(s == null)
+        {
+            Debug.Log("ERROR: Sound not found");
+            return;
+        }
+        s.source.Play();
+    }
+
+    public void StopEffect(string name)
+    {
+        Sound s = Array.Find(effects, sound => sound.name == name);
+        currentEffect = null;
+        if(s == null)
+        {
+            Debug.Log("ERROR: Sound not found to stop");
+            return;
+        }
+        s.source.Stop();
+    }
+
+
     public IEnumerator FadeOut(Sound s)
     {
         CR_running = true;
