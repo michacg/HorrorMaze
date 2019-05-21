@@ -1658,29 +1658,13 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 2
     fadeOutTime: 2
-  - name: DollLaugh
-    loop: 0
-    clip: {fileID: 8300000, guid: f4447cc029b872a48b611750d4151cdf, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    fadeInTime: 0
-    fadeOutTime: 0
-  - name: TrapNoise
-    loop: 0
-    clip: {fileID: 8300000, guid: a02ad489c993b3342ac5764dcf85487b, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    fadeInTime: 0
-    fadeOutTime: 0
   - name: Fire
     loop: 1
     clip: {fileID: 8300000, guid: 6a50589c8a1bc1b4987290fec44ee77c, type: 3}
     volume: 0
     pitch: 1
     source: {fileID: 0}
-    fadeInTime: 2000
+    fadeInTime: 2250
     fadeOutTime: 2
   effects:
   - name: anxiety
