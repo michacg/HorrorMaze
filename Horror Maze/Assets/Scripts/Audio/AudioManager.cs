@@ -160,19 +160,21 @@ public class AudioManager : MonoBehaviour
         int rand;
         int randInterval;
         int minutes = 0;
-        int randMax = 51;           //starts at a 3/51 chance to play a sound but later the frequency increases as the game goes on 
-        while (minutes <= 100)
+        int randMax = 76;           //starts at a 3/51 chance to play a sound but later the frequency increases as the game goes on 
+        while (true)
         {
+            yield return new WaitForSeconds(5);
             randInterval = UnityEngine.Random.Range(0, randMax);
             if(randInterval > 3)
             {
-                randMax = randMax - 1;
-                yield return new WaitForSeconds(5);
+                if(randMax >= 11)
+                {
+                    randMax = randMax - 1;
+                }
             }
             else
             {
                 Debug.Log("Playing Random Sound");
-                randMax = 11;
                 rand = UnityEngine.Random.Range(0, effects.Length);
                 PlayEffect(effects[rand].name);
                 minutes++;

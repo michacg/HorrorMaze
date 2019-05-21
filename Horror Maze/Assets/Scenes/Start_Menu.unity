@@ -1645,7 +1645,7 @@ MonoBehaviour:
   - name: MainMenu
     loop: 1
     clip: {fileID: 8300000, guid: 76f934f1c66b3cb40b0ca2f024c7b890, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 2
@@ -1678,7 +1678,7 @@ MonoBehaviour:
   - name: Crash
     loop: 0
     clip: {fileID: 8300000, guid: a58f3fd066ad2e54492d0145eac6baaa, type: 3}
-    volume: 0.505
+    volume: 0.601
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
@@ -1710,7 +1710,7 @@ MonoBehaviour:
   - name: SpaceTunnel
     loop: 0
     clip: {fileID: 8300000, guid: 1f38c2cf0a766424a8cae61c6bf07ef6, type: 3}
-    volume: 0.518
+    volume: 0.284
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
@@ -1723,10 +1723,10 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
-  - name: 8Voices
+  - name: Whisper
     loop: 0
     clip: {fileID: 8300000, guid: f79471f5c54ed3442a96da74d866f949, type: 3}
-    volume: 0.755
+    volume: 0.339
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   - name: LowPianoNotes
     loop: 0
     clip: {fileID: 8300000, guid: 64ef202895c25664dba5431a475ff004, type: 3}
-    volume: 0.684
+    volume: 0.667
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
