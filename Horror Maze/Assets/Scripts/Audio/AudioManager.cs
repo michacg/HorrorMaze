@@ -8,8 +8,6 @@ using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
-    public float fadeInTime;  //affects how long it takes to fade audio
-    public float fadeOutTime;
     public Sound[] sounds;
     public Sound[] effects;
     public static AudioManager instance = null;
@@ -68,6 +66,20 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void PlayImmediate (string name)  //s.source.volume will adjust actual volume. s.volume will adjust initial value which has no meaning here
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        currentSong = s;
+        //s.source.volume = 0f;   //makes sure we always start at zero if last coroutine didnt finish. Take out this line if not necessary
+        if(s == null)
+        {
+            Debug.Log("ERROR: Sound not found");
+            return;
+        }
+        s.source.Play();
+
+    }
+
 
     public void Stop(string name)
     {
@@ -115,7 +127,7 @@ public class AudioManager : MonoBehaviour
         CR_running = true;
         while(s.source.volume > 0.01f)
         {
-            s.source.volume -= Time.deltaTime / fadeOutTime;  //For a duration of fadeTime, volume gradually decreases till its 0
+            s.source.volume -= Time.deltaTime / s.fadeOutTime;  //For a duration of fadeTime, volume gradually decreases till its 0
             yield return null;
         }
         CR_running = false;
@@ -129,7 +141,7 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
         while (s.source.volume < 1.0f)
         {
-            s.source.volume += Time.deltaTime / fadeInTime; //fades in over course of seconds fadeTime
+            s.source.volume += Time.deltaTime / s.fadeInTime; //fades in over course of seconds fadeTime
             yield return null;
         }
         CR_running = false;
@@ -141,6 +153,35 @@ public class AudioManager : MonoBehaviour
             Stop(currentSong.name);
         StartCoroutine(WaitForAudioFade());
         Play(songToPlay);
+    }
+
+    public IEnumerator PlayRandom()
+    {
+        int rand;
+        int randInterval;
+        int minutes = 0;
+        int randMax = 76;           //starts at a 3/51 chance to play a sound but later the frequency increases as the game goes on 
+        while (true)
+        {
+            yield return new WaitForSeconds(5);
+            randInterval = UnityEngine.Random.Range(0, randMax);
+            if(randInterval > 3)
+            {
+                if(randMax >= 11)
+                {
+                    randMax = randMax - 1;
+                }
+            }
+            else
+            {
+                Debug.Log("Playing Random Sound");
+                rand = UnityEngine.Random.Range(0, effects.Length);
+                PlayEffect(effects[rand].name);
+                minutes++;
+                yield return new WaitForSeconds(25);
+            }
+        }
+
     }
 
     public IEnumerator WaitForAudioFade()   //this function will force the fade to only run when the last fade has completed

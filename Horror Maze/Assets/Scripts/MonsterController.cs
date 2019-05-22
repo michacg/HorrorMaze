@@ -32,6 +32,8 @@ public class MonsterController : MonoBehaviour
 
     private void Start()
     {
+        // Plays monster noises for the duration of the monster's life
+        StartCoroutine(MonsterNoises()); 
         // Get a reference to the Seeker component we added earlier
         seeker = GetComponent<Seeker>();
         // OnPathComplete will be called every time a path is returned to this seeker
@@ -221,5 +223,16 @@ public class MonsterController : MonoBehaviour
         
         Vector3 current_location = new Vector3(Mathf.RoundToInt(transform.position.z), 0.5f, Mathf.RoundToInt(transform.position.x));
         Vector3 position_difference = current_location - player.transform.position;
+    }
+
+
+    // Plays a monster noise every 7-13 seconds when within range
+    private IEnumerator MonsterNoises()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(7,13));
+            GetComponent<AudioSource>().Play();
+        }
     }
 }

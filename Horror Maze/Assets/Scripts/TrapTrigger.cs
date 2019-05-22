@@ -10,6 +10,7 @@ public class TrapTrigger : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("Player"))
         {
+            GetComponent<AudioSource>().Play();
             Respawn(other.gameObject);
         }
     }
