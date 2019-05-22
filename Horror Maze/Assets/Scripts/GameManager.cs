@@ -75,4 +75,17 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
     }
+
+    public List<Transform> GetTrapsTransforms()
+    {
+        List<GameObject> traps = generatorScript.trapList;
+        List<Transform> result = new List<Transform>();
+
+        foreach (GameObject go in traps)
+        {
+            result.Add(go.transform);
+        }
+
+        return result;
+    }
 }

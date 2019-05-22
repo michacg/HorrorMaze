@@ -13,6 +13,7 @@ public class Generator : MonoBehaviour
     public GameObject trapPrefab;
     public GameObject[] corridorTraps; 
     public GameObject[] roomTraps;
+    public List<GameObject> trapList = new List<GameObject>();
 
     public GameObject ceilingTile;
 
@@ -539,7 +540,8 @@ public class Generator : MonoBehaviour
                     {
                         if((trapPercentage + corridorSpawnBoost) > Random.Range(0, 101))
                         {
-                            Instantiate(corridorTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            GameObject go = Instantiate(corridorTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            trapList.Add(go);
                             mazeArray[i,j] = 1;
                             trapLocations.Add(j);
                             trapCount = 0;
@@ -549,7 +551,8 @@ public class Generator : MonoBehaviour
                     {
                         if(trapPercentage > Random.Range(0, 101))
                         {
-                            Instantiate(roomTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            GameObject go = Instantiate(roomTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                            trapList.Add(go);
                             mazeArray[i,j] = 1;
                             trapLocations.Add(j);
                             trapCount = 0;

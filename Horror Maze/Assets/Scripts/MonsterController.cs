@@ -1,34 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Priority_Queue;
 using Pathfinding;
 
 public class MonsterController : MonoBehaviour
 {
-    public int numMonsterType = 3;
+    public int numMonsterType = 3; // Number of different types of monsters (useless for now)
     public TrapTrigger trapScript;
 
-    // Ghost customization variables.
-    public float ghostSpeed = 2;
-
-    // Doll customization variables
-    public float dollSpeed = 4;
-
-    // Brute customization variables
-    public float bruteSpeed = 1;
+    // --------Monster Values--------
+    public float ghostSpeed = 2; // Ghost customization variables
+    public float dollSpeed = 4;  // Doll customization variables
+    public float bruteSpeed = 1; // Brute customization variables
 
     private int monsterType = 0;
     private GameObject player;
 
-    // AI components
-    private Seeker seeker;
+    // --------AI components--------
     private CharacterController controller;
+    private static Vector3 deathOrigin; // The starting point of the monster (used by Ghost, Doll)
+    // DollAI components:
+    private List<Transform> trapLocations;
+    private int trapIndex = 0;
+    // BruteAI components:
+    private Seeker seeker;
 
+    // Pathfinding components
     public Path path;
     public float nextWaypointDistance = 1;
+    public bool reachedEndOfPath = false;
     private int currentWaypoint = 0;
-    public bool reachedEndOfPath;
+
+    // IComparer used to sort trap transforms. 
+    // Comparisons are based on the distance to the 
+    // deathOrigin
+    class DistComparison : IComparer<Transform>
+    {
+        int IComparer<Transform>.Compare(Transform x, Transform y)
+        {
+            float xDistance = Vector3.Distance(x.position, deathOrigin);
+            float yDistance = Vector3.Distance(y.position, deathOrigin);
+
+            if (xDistance < yDistance)
+                return -1;
+            else if (yDistance > xDistance)
+                return 1;
+            else
+                return 0;
+        }
+    }
 
     private void Start()
     {
@@ -40,6 +60,13 @@ public class MonsterController : MonoBehaviour
         seeker.pathCallback += OnPathComplete;
 
         controller = GetComponent<CharacterController>();
+
+        deathOrigin = transform.position;
+
+        // Get all the trap locations in the maze
+        trapLocations = GameManager.instance.GetTrapsTransforms();
+        DistComparison comparer = new DistComparison();
+        trapLocations.Sort(comparer);
     }
 
     // Update is called once per frame
@@ -55,11 +82,6 @@ public class MonsterController : MonoBehaviour
         // walls and fall over. This is to keep them upright.
         transform.eulerAngles = new Vector3(0, 0, 0);
         player = GameManager.instance.GetPlayerGO();
-
-        // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
-        // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
-        // takes to calculate the path. Usually it is called the next frame.
-        seeker.StartPath(transform.position, player.transform.position);
 
         // Different AI types based on the monster.
         // Case 0: monster is still dormant.
@@ -106,7 +128,7 @@ public class MonsterController : MonoBehaviour
         // Make monster upright. 
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-        monsterType = 1; // debugging AI purposes
+        monsterType = 2; // debugging AI purposes
         //monsterType = Random.Range(1, numMonsterType + 1);
 
         // Different AI types based on the monster.
@@ -153,16 +175,22 @@ public class MonsterController : MonoBehaviour
         seeker.pathCallback -= OnPathComplete;
     }
 
+    // Ghost travels directly at the player. It also goes through 
+    // walls (implemented in WallController script). Restarts from 
+    // ghostOrigin when player shines torch on it. 
     private void GhostAI()
     {
+        // Find direction towards player
         transform.position = Vector3.MoveTowards(transform.position, 
             player.transform.position, ghostSpeed * Time.deltaTime);
         Vector3 dir = (player.transform.position - transform.position).normalized;
+
+        // Move towards player
         Vector3 velocity = dir * ghostSpeed;
         controller.SimpleMove(velocity);
     }
 
-    private void DollAI()
+    private void FollowPath(float speed)
     {
         if (path == null)
         {
@@ -173,13 +201,18 @@ public class MonsterController : MonoBehaviour
         // Check in a loop if we are close enough to the current waypoint to switch to the next one.
         // We do this in a loop because many waypoints might be close to each other and we may reach
         // several of them in the same frame.
-        reachedEndOfPath = false;
-        // The distance to the next waypoint in the path
-        float distanceToWaypoint;
+        float distanceToWaypoint; // The distance to the next waypoint in the path
         while (true)
         {
-            distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
-            Debug.Log("Distance to Waypoint: " + distanceToWaypoint);
+            // Sometimes the path search gets buggy, it detects
+            // the monster as in the air, so it tries to find
+            // a way down to the ground. This ignores the downard
+            // vector.
+            Vector3 temp_path = path.vectorPath[currentWaypoint];
+            Vector3 temp_pos = transform.position;
+            temp_path.y = temp_pos.y = 0;
+
+            distanceToWaypoint = Vector3.Distance(temp_pos, temp_path);
             if (distanceToWaypoint < nextWaypointDistance)
             {
                 // Check if there is another waypoint or if we have reached the end of the path
@@ -203,28 +236,51 @@ public class MonsterController : MonoBehaviour
 
         // Slow down smoothly upon approaching the end of the path
         // This value will smoothly go from 1 to 0 as the agent approaches the last waypoint in the path.
-        //var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
+        // var speedFactor = reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
 
         // Direction to the next waypoint
         // Normalize it so that it has a length of 1 world unit
         Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         //Debug.Log("Direction = " + dir);
         // Multiply the direction by our desired speed to get a velocity
-        Vector3 velocity = dir * dollSpeed; // could multiply by speedFactor above
+        Vector3 velocity = dir * speed; // could multiply by speedFactor above
 
         // Move the agent using the CharacterController component
         // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
         controller.SimpleMove(velocity);
     }
 
-    private void BruteAI()
+    // Patrols the maze in a circuit. The circuit is formed 
+    // around trap locations in the maze. Strays from the 
+    // circuit when it detects the player is within a 
+    // certain range. 
+    private void DollAI()
     {
-        byte[,] mazeArray = Generator.mazeArray;
-        
-        Vector3 current_location = new Vector3(Mathf.RoundToInt(transform.position.z), 0.5f, Mathf.RoundToInt(transform.position.x));
-        Vector3 position_difference = current_location - player.transform.position;
+        if (reachedEndOfPath)
+        {
+            trapIndex += 1;
+            trapIndex = trapIndex % trapLocations.Count;
+            reachedEndOfPath = false;
+        }
+
+        // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
+        // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
+        // takes to calculate the path. Usually it is called the next frame.
+        seeker.StartPath(transform.position, trapLocations[trapIndex].position);
+
+        FollowPath(dollSpeed);
     }
 
+    // Finds direct path to player, but travels really slowly.
+    // When player is in sight, goes into "charge mode". "Charge
+    // mode" has a cooldown of 5? seconds.
+    private void BruteAI()
+    {
+        seeker.StartPath(transform.position, player.transform.position);
+        reachedEndOfPath = false;
+
+        FollowPath(bruteSpeed);
+    }
 
     // Plays a monster noise every 7-13 seconds when within range
     private IEnumerator MonsterNoises()
