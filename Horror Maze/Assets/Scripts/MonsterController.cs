@@ -104,7 +104,7 @@ public class MonsterController : MonoBehaviour
         // Make monster upright. 
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-        monsterType = 2; // debugging AI purposes
+        monsterType = 1; // debugging AI purposes
         //monsterType = Random.Range(1, numMonsterType + 1);
 
         // Different AI types based on the monster.
@@ -155,6 +155,9 @@ public class MonsterController : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, 
             player.transform.position, ghostSpeed * Time.deltaTime);
+        Vector3 dir = (player.transform.position - transform.position).normalized;
+        Vector3 velocity = dir * ghostSpeed;
+        controller.SimpleMove(velocity);
     }
 
     private void DollAI()
