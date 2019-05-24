@@ -205,6 +205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a8507938e151046b3208fd24edf138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bruteSpeed: 1
+  trapScript: {fileID: 508987151500133232, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
+    type: 3}
+  nextWaypointDistance: 1
+  reachedEndOfPath: 0
 --- !u!114 &8393958362945432586
 MonoBehaviour:
   m_ObjectHideFlags: 0
