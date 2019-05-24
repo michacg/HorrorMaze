@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
+    private GameObject[] ghost;
+
+    private void Update()
+    {
+        //ghost = GameObject.FindGameObjectsWithTag("Ghost");
+        //Debug.Log("Ghost PV = " + ghost);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Detecting ghost...");

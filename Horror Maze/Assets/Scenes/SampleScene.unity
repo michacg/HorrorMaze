@@ -573,6 +573,7 @@ MonoBehaviour:
   - {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc, type: 3}
   roomTraps:
   - {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc, type: 3}
+  trapList: []
   ceilingTile: {fileID: 0}
   rows: 51
   cols: 51

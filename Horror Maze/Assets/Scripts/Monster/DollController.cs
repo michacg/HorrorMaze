@@ -3,29 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class MonsterController : MonoBehaviour
+public class DollController : MonoBehaviour
 {
-    public int numMonsterType = 3; // Number of different types of monsters (useless for now)
+    public float dollSpeed = 4;
     public TrapTrigger trapScript;
 
-    // --------Monster Values--------
-    public float ghostSpeed = 2; // Ghost customization variables
-    public float dollSpeed = 4;  // Doll customization variables
-    public float bruteSpeed = 1; // Brute customization variables
-
-    private int monsterType = 0;
     private GameObject player;
-
-    // --------AI components--------
     private CharacterController controller;
-    private static Vector3 deathOrigin; // The starting point of the monster (used by Ghost, Doll)
-    // DollAI components:
+    private static Vector3 deathOrigin;
+
+    // -------- AI components --------
     private List<Transform> trapLocations;
     private int trapIndex = 0;
-    // BruteAI components:
     private Seeker seeker;
 
-    // Pathfinding components
+    // -------- Pathfinding components --------
     public Path path;
     public float nextWaypointDistance = 1;
     public bool reachedEndOfPath = false;
@@ -50,10 +42,11 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         // Plays monster noises for the duration of the monster's life
-        StartCoroutine(MonsterNoises()); 
+        StartCoroutine(MonsterNoises());
         // Get a reference to the Seeker component we added earlier
         seeker = GetComponent<Seeker>();
         // OnPathComplete will be called every time a path is returned to this seeker
@@ -67,95 +60,6 @@ public class MonsterController : MonoBehaviour
         trapLocations = GameManager.instance.GetTrapsTransforms();
         DistComparison comparer = new DistComparison();
         trapLocations.Sort(comparer);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Detect the number of deaths so far.
-        // Transform into a monster by 
-        //     (1) choosing a monster type.
-        //     (2) changing the prefab from a player dead body to monster body.
-        //     (3) run the monstesr AI depending on type.
-
-        // Since monsters are capsules right now, they collide with 
-        // walls and fall over. This is to keep them upright.
-        transform.eulerAngles = new Vector3(0, 0, 0);
-        player = GameManager.instance.GetPlayerGO();
-
-        // Different AI types based on the monster.
-        // Case 0: monster is still dormant.
-        // Case 1: ghost
-        // Case 2: doll
-        // Case 3: brute
-        switch (monsterType)
-        {
-            case 0:
-                break;
-
-            case 1:
-                GhostAI();
-                break;
-
-            case 2:
-                DollAI();
-                break;
-
-            case 3:
-                BruteAI();
-                break;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag.Equals("Player"))
-        {
-            trapScript.Respawn(collision.gameObject);
-        }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.tag.Equals("Player"))
-        {
-            trapScript.Respawn(hit.gameObject);
-        }
-    }
-
-    public void Transform()
-    {
-        // Make monster upright. 
-        transform.eulerAngles = new Vector3(0, 0, 0);
-
-        monsterType = 2; // debugging AI purposes
-        //monsterType = Random.Range(1, numMonsterType + 1);
-
-        // Different AI types based on the monster.
-        // Case 0: monster is still dormant.
-        // Case 1: ghost
-        // Case 2: doll
-        // Case 3: brute
-        switch (monsterType)
-        {
-            case 1:
-                gameObject.tag = "Ghost";
-                break;
-
-            case 2:
-                // Change prefab into ghost prefab. Here, size is changed to show 
-                // monster type differences.
-                transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                Debug.Log("Doll transformation");
-
-                break;
-
-            case 3:
-                transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                Debug.Log("Brute transformation");
-
-                break;
-        }
     }
 
     public void OnPathComplete(Path p)
@@ -175,19 +79,14 @@ public class MonsterController : MonoBehaviour
         seeker.pathCallback -= OnPathComplete;
     }
 
-    // Ghost travels directly at the player. It also goes through 
-    // walls (implemented in WallController script). Restarts from 
-    // ghostOrigin when player shines torch on it. 
-    private void GhostAI()
+    // Update is called once per frame
+    void Update()
     {
-        // Find direction towards player
-        transform.position = Vector3.MoveTowards(transform.position, 
-            player.transform.position, ghostSpeed * Time.deltaTime);
-        Vector3 dir = (player.transform.position - transform.position).normalized;
+        // Since monsters are capsules right now, they collide with 
+        // walls and fall over. This is to keep them upright.
+        transform.eulerAngles = new Vector3(0, 0, 0);
 
-        // Move towards player
-        Vector3 velocity = dir * ghostSpeed;
-        controller.SimpleMove(velocity);
+        DollAI();
     }
 
     private void FollowPath(float speed)
@@ -271,23 +170,20 @@ public class MonsterController : MonoBehaviour
         FollowPath(dollSpeed);
     }
 
-    // Finds direct path to player, but travels really slowly.
-    // When player is in sight, goes into "charge mode". "Charge
-    // mode" has a cooldown of 5? seconds.
-    private void BruteAI()
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        seeker.StartPath(transform.position, player.transform.position);
-        reachedEndOfPath = false;
-
-        FollowPath(bruteSpeed);
+        if (hit.gameObject.tag.Equals("Player"))
+        {
+            trapScript.Respawn(hit.gameObject);
+        }
     }
 
     // Plays a monster noise every 7-13 seconds when within range
     private IEnumerator MonsterNoises()
     {
-        while(true)
+        while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(7,13));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(7, 13));
             GetComponent<AudioSource>().Play();
         }
     }
