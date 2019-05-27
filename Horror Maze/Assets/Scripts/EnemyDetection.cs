@@ -7,6 +7,7 @@ public class EnemyDetection : MonoBehaviour
     public float raycastDistance = 1;
 
     private Camera fpsCamera;
+    private List<DollController> dolls = new List<DollController>();
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +42,21 @@ public class EnemyDetection : MonoBehaviour
                 GhostController ghostScript = monsterHit.GetComponent<GhostController>();
                 ghostScript.Restart();
             }
+            else if (monsterHit.tag.Equals("Doll"))
+            {
+                DollController dollScript = monsterHit.GetComponent<DollController>();
+                dollScript.CanMove(false);
+                dolls.Add(dollScript);
+            }
         }
         else
         {
             Debug.DrawRay(transform.position, fpsCamera.transform.forward * raycastDistance, Color.white);
-            Debug.Log("Did not Hit");
+            //Debug.Log("Did not Hit");
+            foreach (DollController dollScript in dolls)
+            {
+                dollScript.CanMove(true);
+            }
         }
     }
 }

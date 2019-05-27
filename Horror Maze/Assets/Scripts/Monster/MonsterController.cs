@@ -12,9 +12,12 @@ public class MonsterController : MonoBehaviour
         // Make monster upright. 
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-        int monsterType = 0; // debugging AI purposes
+        int monsterType = 1; // debugging AI purposes
         //int monsterType = Random.Range(0, monsters.Length);
         Vector3 position = transform.position;
+        position.y = 5;
+        Debug.Log("Origin = " + position);
+
         Destroy(gameObject);
         GameObject go = Instantiate(monsters[monsterType], position, Quaternion.identity);
 

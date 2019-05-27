@@ -11,13 +11,13 @@ public class TrapTrigger : MonoBehaviour
         if (other.gameObject.tag.Equals("Player"))
         {
             GetComponent<AudioSource>().Play();
-            Respawn(other.gameObject);
+            Respawn(other.gameObject, transform.position);
         }
     }
 
     // Respawn is made public so that the MonsterController
     // script can reuse the player respawn code.
-    public void Respawn(GameObject other)
+    public void Respawn(GameObject other, Vector3 old_position)
     {
         // Forward definition for variables used inside
         // the switch-case block.
@@ -62,9 +62,6 @@ public class TrapTrigger : MonoBehaviour
 
         // Delete the player GameObject.
         Destroy(other);
-
-        // Replace this body with a monster gameobject.
-        Vector3 old_position = transform.position;
 
         // Quaternion Euler here is used to make the dead body 
         // lie in horizontal position to represent a dead body.

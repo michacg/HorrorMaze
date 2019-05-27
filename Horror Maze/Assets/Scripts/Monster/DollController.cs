@@ -6,11 +6,13 @@ using Pathfinding;
 public class DollController : MonoBehaviour
 {
     public float dollSpeed = 4;
+    public float detectionRange = 3;
     public TrapTrigger trapScript;
 
     private GameObject player;
     private CharacterController controller;
     private static Vector3 deathOrigin;
+    private bool canMove = true;
 
     // -------- AI components --------
     private List<Transform> trapLocations;
@@ -79,6 +81,11 @@ public class DollController : MonoBehaviour
         seeker.pathCallback -= OnPathComplete;
     }
 
+    public void CanMove(bool movement)
+    {
+        canMove = movement;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -86,7 +93,11 @@ public class DollController : MonoBehaviour
         // walls and fall over. This is to keep them upright.
         transform.eulerAngles = new Vector3(0, 0, 0);
 
-        DollAI();
+        if (canMove)
+        {
+            player = GameManager.instance.GetPlayerGO();
+            DollAI();
+        }
     }
 
     private void FollowPath(float speed)
@@ -149,23 +160,40 @@ public class DollController : MonoBehaviour
         controller.SimpleMove(velocity);
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
     // Patrols the maze in a circuit. The circuit is formed 
     // around trap locations in the maze. Strays from the 
     // circuit when it detects the player is within a 
     // certain range. 
     private void DollAI()
     {
-        if (reachedEndOfPath)
+        // Detect if the player is within a certain range. 
+        // If it is, then override the patrol paths, and go
+        // straight for the player. 
+        if (Vector3.Distance(player.transform.position, transform.position) <= detectionRange)
         {
-            trapIndex += 1;
-            trapIndex = trapIndex % trapLocations.Count;
-            reachedEndOfPath = false;
+            Debug.Log("Player detected, fuck em up time");
+            // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
+            // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
+            // takes to calculate the path. Usually it is called the next frame.
+            seeker.StartPath(transform.position, player.transform.position);
         }
+        else
+        {
+            if (reachedEndOfPath)
+            {
+                trapIndex += 1;
+                trapIndex = trapIndex % trapLocations.Count;
+                reachedEndOfPath = false;
+            }
 
-        // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
-        // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
-        // takes to calculate the path. Usually it is called the next frame.
-        seeker.StartPath(transform.position, trapLocations[trapIndex].position);
+            seeker.StartPath(transform.position, trapLocations[trapIndex].position);
+        }
 
         FollowPath(dollSpeed);
     }
@@ -174,7 +202,7 @@ public class DollController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
-            trapScript.Respawn(hit.gameObject);
+            trapScript.Respawn(hit.gameObject, transform.position);
         }
     }
 

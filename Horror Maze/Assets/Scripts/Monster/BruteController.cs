@@ -135,7 +135,7 @@ public class BruteController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
-            trapScript.Respawn(hit.gameObject);
+            trapScript.Respawn(hit.gameObject, transform.position);
         }
     }
 
