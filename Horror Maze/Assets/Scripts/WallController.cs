@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
-    private GameObject[] ghost;
+    private List<GameObject> ghosts;
+    private Collider collide;
+    private int numGhosts = 0;
+
+    private void Start()
+    {
+        collide = gameObject.GetComponent<Collider>();
+    }
 
     private void Update()
     {
-        //ghost = GameObject.FindGameObjectsWithTag("Ghost");
-        //Debug.Log("Ghost PV = " + ghost);
+        ghosts = GameManager.instance.FindGhosts();
+        if (numGhosts != ghosts.Count)
+        {
+            foreach (GameObject go in ghosts)
+            {
+                Debug.Log("Ghost " + go);
+                Physics.IgnoreCollision(collide, go.GetComponent<Collider>());
+            }
+
+            numGhosts = ghosts.Count;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -18,7 +34,7 @@ public class WallController : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ghost"))
         {
             Debug.Log("Ignoring ghost...");
-            Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), collision.gameObject.GetComponent<Collider>());
+            Physics.IgnoreCollision(collide, collision.gameObject.GetComponent<Collider>());
         }
     }
 }

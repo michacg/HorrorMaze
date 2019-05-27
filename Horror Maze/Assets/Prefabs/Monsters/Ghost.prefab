@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1908528076984353927}
   - component: {fileID: 4644831949120248740}
   - component: {fileID: 7590475148969332202}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 6683063937121635192}
   - component: {fileID: 55433292659137309}
   - component: {fileID: 3534367835490621809}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

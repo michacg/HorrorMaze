@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> monsterList = new List<GameObject>();
     private GameObject player;
     private int deaths = 0;
+    private List<GameObject> ghosts = new List<GameObject>();
 
     void Awake()
     {
@@ -87,5 +88,15 @@ public class GameManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void AddGhost(GameObject go)
+    {
+        ghosts.Add(go);
+    }
+
+    public List<GameObject> FindGhosts()
+    {
+        return ghosts;
     }
 }

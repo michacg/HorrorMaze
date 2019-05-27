@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3076739893979113393}
   - component: {fileID: 8559431763860109268}
   - component: {fileID: 5116473240625231288}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8393958362945432586}
   - component: {fileID: 3473769626654290560}
   - component: {fileID: 2259414418163065123}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Brute
   m_TagString: Untagged
   m_Icon: {fileID: 0}

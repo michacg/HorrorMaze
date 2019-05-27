@@ -9,7 +9,7 @@ public class GhostController : MonoBehaviour
 
     private CharacterController controller;
     private GameObject player;
-
+    private Vector3 origin;
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +18,7 @@ public class GhostController : MonoBehaviour
         StartCoroutine(MonsterNoises());
 
         controller = GetComponent<CharacterController>();
-
-        Debug.Log("Ghost tag = " + gameObject.tag);
+        origin = transform.position;
     }
 
     // Update is called once per frame
@@ -43,6 +42,18 @@ public class GhostController : MonoBehaviour
         // Move towards player
         Vector3 velocity = dir * ghostSpeed;
         controller.SimpleMove(velocity);
+    }
+
+    // Ghost restarts from its original starting point. This
+    // function is called by EnemyDetection script when player
+    // shines light on the ghost.
+    public void Restart()
+    {
+        // Needs to disable the character controller during teleportation.
+        Debug.Log("Restarted");
+        controller.enabled = false;
+        controller.transform.position = origin;
+        controller.enabled = true;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
