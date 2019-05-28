@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject> monsterList = new List<GameObject>();
     private GameObject player;
     private int deaths = 0;
+
+    private List<GameObject> dolls = new List<GameObject>();
     private List<GameObject> ghosts = new List<GameObject>();
 
     void Awake()
@@ -90,9 +92,34 @@ public class GameManager : MonoBehaviour
         return result;
     }
 
-    public void AddGhost(GameObject go)
+    // Add monster essentially does 2 things: 
+    // (1) If the monster is ghost, then add it to the ghost 
+    // list in GameManager. So that it walls can more 
+    // efficiently find ghost objects, and ignore collisions.
+    // (2) Enemy Detection needs a list of dolls and ghosts to
+    // calculate the monster positions to the player, and whether
+    // to send raycasts. 
+    public void AddMonster(GameObject go)
     {
-        ghosts.Add(go);
+        if (go.tag.Equals("Ghost"))
+        {
+            ghosts.Add(go);
+        }
+        else if (go.tag.Equals("Doll"))
+        {
+            dolls.Add(go);
+        }
+    }
+
+    public List<GameObject> GetAllMonsters()
+    {
+        List<GameObject> result = new List<GameObject>(ghosts);
+        foreach (GameObject go in dolls)
+        {
+            result.Add(go);
+        }
+
+        return result;
     }
 
     public List<GameObject> FindGhosts()

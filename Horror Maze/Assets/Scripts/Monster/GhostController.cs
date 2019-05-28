@@ -50,7 +50,6 @@ public class GhostController : MonoBehaviour
     public void Restart()
     {
         // Needs to disable the character controller during teleportation.
-        Debug.Log("Restarted");
         controller.enabled = false;
         controller.transform.position = origin;
         controller.enabled = true;

@@ -8,6 +8,7 @@ TagManager:
   - GameManager
   - Ghost
   - Doll
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -6,10 +6,24 @@ using Pathfinding;
 public class BruteController : MonoBehaviour
 {
     public float bruteSpeed = 1;
+    public float lookSpeed = 50;
+
+    // -------- Charging customizations --------
+    public float chargeSpeed = 10;
+    public float chargeCD = 5; // seconds until next charge ability
+
+    // -------- Player detection --------
+    public float raycastAngle = 45; // angle of the cone
+    public float raycastDistance = 20; // Length of raycast
+    public LayerMask layerMask;
     public TrapTrigger trapScript;
 
     private GameObject player;
     private CharacterController controller;
+    private bool isCharging = false; // is the brute currently in charge mode
+    private bool inCoolDown = false; // is the charge ability in cool down
+    private float cdTimer = 5; // charge cool down timer
+    private Vector3 chargeDir; // the charge direction, brute can't change direction midcharge
 
     private Seeker seeker;
 
@@ -30,6 +44,7 @@ public class BruteController : MonoBehaviour
         seeker.pathCallback += OnPathComplete;
 
         controller = GetComponent<CharacterController>();
+        cdTimer = chargeCD;
     }
 
     // Update is called once per frame
@@ -37,7 +52,8 @@ public class BruteController : MonoBehaviour
     {
         // Since monsters are capsules right now, they collide with 
         // walls and fall over. This is to keep them upright.
-        transform.eulerAngles = new Vector3(0, 0, 0);
+        //transform.eulerAngles = new Vector3(0, 0, 0);
+
         player = GameManager.instance.GetPlayerGO();
 
         BruteAI();
@@ -101,6 +117,72 @@ public class BruteController : MonoBehaviour
         // Move the agent using the CharacterController component
         // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
         controller.SimpleMove(velocity);
+
+        // Since the path velocity does not take into account
+        // of the y axis, the brute will always look at the ground. 
+        // Thus, we manually reset the y position. 
+        Vector3 lookDir = velocity;
+        lookDir.y = transform.forward.y;
+        Quaternion lookTarget = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookTarget, lookSpeed * Time.deltaTime);
+    }
+
+    private bool SendRaycast()
+    {
+        Vector3 direction = (player.transform.position - transform.position).normalized;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, direction, out hit, raycastDistance, layerMask))
+        {
+            if (hit.transform.gameObject.tag.Equals("Player"))
+            {
+                Debug.DrawRay(transform.position, direction * hit.distance, Color.yellow);
+
+                // If the brute is not already charging, and if
+                // the cool down is not in effect, charge. 
+                if (!isCharging && !inCoolDown)
+                {
+                    EnableChargeMode();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, direction * raycastDistance, Color.white);
+
+            return false;
+        }
+    }
+
+    private bool PlayerInSight()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+
+        // If the player is within the cone detection range
+        // (i.e. within both angle and distance range) then 
+        // preliminary check is passed. 
+        if ((Vector3.Angle(direction, transform.forward) <= raycastAngle) && 
+            (Vector3.Distance(player.transform.position, transform.position) <= raycastDistance))
+        {
+            Debug.DrawRay(transform.position, direction, Color.magenta);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void EnableChargeMode()
+    {
+        Debug.Log("Charge mode activated...");
+        isCharging = true;
+        Vector3 dir = (player.transform.position - transform.position).normalized;
+        Vector3 velocity = dir * chargeSpeed;
+        chargeDir = velocity;
     }
 
     // Finds direct path to player, but travels really slowly.
@@ -111,7 +193,45 @@ public class BruteController : MonoBehaviour
         seeker.StartPath(transform.position, player.transform.position);
         reachedEndOfPath = false;
 
-        FollowPath(bruteSpeed);
+        // If the player is within the cone of view of the brute, 
+        // then send a raycast to the player to make sure the player
+        // is not behind a wall. 
+        if (PlayerInSight())
+        {
+            SendRaycast();
+        }
+
+        // if the brute is still charging, keep moving
+        // towards the player direction. 
+        if (isCharging)
+        {
+            Debug.Log("Still charging my ass off");
+            controller.SimpleMove(chargeDir);
+
+            Vector3 lookDir = chargeDir;
+            lookDir.y = transform.forward.y;
+            Quaternion lookTarget = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookTarget, lookSpeed * Time.deltaTime);
+        }
+        else
+        {
+            if (inCoolDown)
+            {
+                cdTimer -= Time.deltaTime;
+
+                // if the cool down timer reaches 0, then brute can
+                // charge again. Reset cool down timer.
+                if (cdTimer <= 0)
+                {
+                    inCoolDown = false;
+                    cdTimer = chargeCD;
+
+                    Debug.Log("Cool down completed where that bitch player at");
+                }
+            }
+
+            FollowPath(bruteSpeed);
+        }
     }
 
     public void OnPathComplete(Path p)
@@ -136,6 +256,15 @@ public class BruteController : MonoBehaviour
         if (hit.gameObject.tag.Equals("Player"))
         {
             trapScript.Respawn(hit.gameObject, transform.position);
+        }
+
+        // If the brute hits a wall, and is in charge mode, stop
+        // charging. Then start cool down timer.
+        else if (hit.gameObject.tag.Equals("Wall") && (isCharging))
+        {
+            Debug.Log("Oof hit a wall");
+            isCharging = false;
+            inCoolDown = true;
         }
     }
 

@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4950522579654254155}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.54, y: 0.8, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.5}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 5797723141146668955}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &3076739893979113393
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -123,8 +123,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5797723141146668957}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.495544, y: 0.0000009536743, z: 7.377472}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 564670188480507285}
   m_Father: {fileID: 0}
@@ -155,7 +155,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 46e0ecefe2ba442a5825f21e42530872, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,6 +206,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bruteSpeed: 1
+  lookSpeed: 100
+  chargeSpeed: 10
+  chargeCD: 15
+  raycastAngle: 45
+  raycastDistance: 20
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 2560
   trapScript: {fileID: 508987151500133232, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
     type: 3}
   nextWaypointDistance: 1
@@ -253,13 +261,13 @@ MonoBehaviour:
   version: 1
   smoothType: 1
   subdivisions: 2
-  iterations: 2
+  iterations: 1
   strength: 0.5
   uniformLength: 1
-  maxSegmentLength: 4
-  bezierTangentLength: 0.4
-  offset: 0.2
-  factor: 0.1
+  maxSegmentLength: 2
+  bezierTangentLength: 0.1
+  offset: 0.3
+  factor: 0.8
 --- !u!82 &2259414418163065123
 AudioSource:
   m_ObjectHideFlags: 0
