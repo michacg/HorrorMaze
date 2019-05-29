@@ -11,11 +11,21 @@ public class TrapTrigger : MonoBehaviour
         if (other.gameObject.tag.Equals("Player"))
         {
             GetComponent<AudioSource>().Play();
-            Respawn(other.gameObject, transform.position);
+            FadeManager.instance.StartDeath();  //begin fade animation to black once player triggers a trap
+            StartCoroutine(Respawn(other));     //delay the respawn a bit to respawn AFTER the screen fades to black
+        }                                       //TODO: de-activate player movement during screen fade
+    }                                           //      add player respawn text
+
+    public IEnumerator Respawn(Collider player)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2f);
+            Respawn(player.gameObject, transform.position);
             Destroy(this.gameObject);
         }
+        
     }
-
     // Respawn is made public so that the MonsterController
     // script can reuse the player respawn code.
     public void Respawn(GameObject other, Vector3 old_position)
