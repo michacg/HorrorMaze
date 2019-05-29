@@ -12,6 +12,7 @@ public class TrapTrigger : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             Respawn(other.gameObject, transform.position);
+            Destroy(this.gameObject);
         }
     }
 
