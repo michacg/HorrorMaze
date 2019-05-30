@@ -306,14 +306,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ae9587b7e60644da9f59266b980d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneFlag: 0
   relations:
   - sceneName: Start_Menu
     songName: MainMenu
   - sceneName: SampleScene
-    songName: Ambience
-  - sceneName: SampleScene
     songName: Fire
+  - sceneName: SampleScene
+    songName: Ambience
   - sceneName: GameOverScene
     songName: LastRoomSong
 --- !u!1 &174103217
@@ -2531,15 +2530,7 @@ MonoBehaviour:
     fadeInTime: 0
     fadeOutTime: 0
   CR_running: 0
-  currentSong:
-    name: 
-    loop: 0
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    source: {fileID: 0}
-    fadeInTime: 0
-    fadeOutTime: 0
+  currentSongs: []
   currentEffect:
     name: 
     loop: 0

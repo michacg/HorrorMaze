@@ -16,9 +16,9 @@ public class AudioManager : MonoBehaviour
     [HideInInspector]
     public bool CR_running = false;
     [HideInInspector]
-    public Sound currentSong;
+    public List<string> currentSongs = new List<string>();
     [HideInInspector]
-    public Sound currentEffect;
+    public Sound currentEffect = null;
 
     void Awake()
     {
@@ -52,7 +52,7 @@ public class AudioManager : MonoBehaviour
     public void Play (string name)  //s.source.volume will adjust actual volume. s.volume will adjust initial value which has no meaning here
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        currentSong = s;
+        currentSongs.Add(s.name);
         //s.source.volume = 0f;   //makes sure we always start at zero if last coroutine didnt finish. Take out this line if not necessary
         fadeIn = FadeIn(s);     //we assign coroutines only when we start the song. These same references are used when we stop the song
         fadeOut = FadeOut(s);   //this is used to hard stop the last coroutine in case the player spam clicks
@@ -69,7 +69,7 @@ public class AudioManager : MonoBehaviour
     public void PlayImmediate (string name)  //s.source.volume will adjust actual volume. s.volume will adjust initial value which has no meaning here
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        currentSong = s;
+        currentSongs.Add(s.name);
         //s.source.volume = 0f;   //makes sure we always start at zero if last coroutine didnt finish. Take out this line if not necessary
         if(s == null)
         {
@@ -84,7 +84,7 @@ public class AudioManager : MonoBehaviour
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        currentSong = null;
+        currentSongs.Remove(s.name);
         if(s == null)
         {
             Debug.Log("ERROR: Sound not found to stop");
@@ -130,9 +130,9 @@ public class AudioManager : MonoBehaviour
             s.source.volume -= Time.deltaTime / s.fadeOutTime;  //For a duration of fadeTime, volume gradually decreases till its 0
             yield return null;
         }
-        CR_running = false;
         s.source.volume = 0f;
         s.source.Stop();
+        CR_running = false;
     }
 
     public IEnumerator FadeIn(Sound s)
@@ -147,13 +147,18 @@ public class AudioManager : MonoBehaviour
         CR_running = false;
     }    
 
-    public void DialogueTransitionSong(string songToPlay)
+    public void DialogueTransitionSong(List<string> removeSongs, List<string> playSongs)
     {
-        
-        if(currentSong != null)
-            Stop(currentSong.name);
-        StartCoroutine(WaitForAudioFade());
-        Play(songToPlay);
+        foreach(string x in removeSongs)
+        {
+            Stop(x);
+            StartCoroutine(WaitForAudioFade());
+        }
+        foreach(string y in playSongs)
+        {
+            Play(y);
+            StartCoroutine(WaitForAudioFade());
+        }
     }
 
     public IEnumerator PlayRandom()
@@ -175,7 +180,6 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Playing Random Sound");
                 rand = UnityEngine.Random.Range(0, effects.Length);
                 PlayEffect(effects[rand].name);
                 minutes++;
