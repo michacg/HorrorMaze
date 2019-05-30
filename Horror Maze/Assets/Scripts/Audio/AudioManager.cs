@@ -149,6 +149,7 @@ public class AudioManager : MonoBehaviour
 
     public void DialogueTransitionSong(string songToPlay)
     {
+        
         if(currentSong != null)
             Stop(currentSong.name);
         StartCoroutine(WaitForAudioFade());

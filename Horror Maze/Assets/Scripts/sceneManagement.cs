@@ -34,17 +34,19 @@ public class sceneManagement : MonoBehaviour
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        soundList.Clear();                  //sets the list back to empty every time a scene loads
         if(scene.name == "SampleScene")    //specific to this project
         {
             StartCoroutine(playRandom);
-
         }
         else
         {
             StopCoroutine(playRandom);
         }
         sceneFlag = true;   //for background transitions
-        if(s != null && s.songName != null)
+
+
+        if(s != null && s.songName != null)  //hits here if a song is already playing
         {
             while(s != null)  //allows multiple different songs to play upon loading a sccene at the same time
             {
@@ -56,13 +58,13 @@ public class sceneManagement : MonoBehaviour
                 }
                 else if(s != null && soundList.Count != 0)      //this is the case where the first song has already faded out the last scenes song, so this just 
                 {                                               //fades in another song
-                    soundList.Add(s);
+                    soundList.Add(s);                           
                     FindObjectOfType<AudioManager>().Play(s.songName);
                 }
             }
         }
         //mostly for the opening scene as well as any scene that doesnt have a relation to continue the theme going
-        else
+        else                    //hits here if no song is previously playing
         {
             s = Array.Find(relations, x => x.sceneName == scene.name);
             if(s != null && AudioManager.instance.currentSong.name != s.songName) //allows us to have menu theme consistent during all submenus in main menu
