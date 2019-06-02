@@ -75,8 +75,8 @@ public class TrapTrigger : MonoBehaviour
         Destroy(other);
 
         // Quaternion Euler here is used to make the dead body 
-        // lie in horizontal position to represent a dead body.
-        GameObject monster = Instantiate(monsterPrefab, old_position, Quaternion.Euler(-90f, 0f, 0f));
+        // lie with no rotation.
+        GameObject monster = Instantiate(monsterPrefab, old_position, Quaternion.Euler(0f, 0f, 0f));
 
         GameManager.instance.IncrementDeath(monster);
     }
