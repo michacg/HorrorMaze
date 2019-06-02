@@ -11,6 +11,7 @@ public class FadeManager : MonoBehaviour
     public Image flashScreen;
     public float percentage = 0;
     public bool inDeath = false;
+    public TextAsset storyFile;
     private string[] storyLines;
 
     void Awake()
@@ -26,7 +27,7 @@ public class FadeManager : MonoBehaviour
 
         DontDestroyOnLoad(instance);
 
-        //BuildStoryArray(Resources.Load<TextAsset>("Story.txt"));
+        //storyLines = storyFile.text.Split('\n');
     }
 
     public void StartDeath()
@@ -88,11 +89,5 @@ public class FadeManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         deathScreen.color = new Color(deathScreen.color.r, deathScreen.color.g, deathScreen.color.b, 0);
         inDeath = false;
-    }
-
-    public void BuildStoryArray(TextAsset textFile)
-    {
-        storyLines = textFile.text.Split('\n');
-        Debug.Log(storyLines.Length);
     }
 }

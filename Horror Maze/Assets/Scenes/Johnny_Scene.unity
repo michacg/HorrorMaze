@@ -577,7 +577,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &232805507
 GameObject:
@@ -1762,12 +1762,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722369046}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!20 &730461371 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2681891720689740312, guid: 2cc7e3211365566458e935163abcdc02,
-    type: 3}
-  m_PrefabInstance: {fileID: 2681891721101188771}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &748401327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,7 +2632,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 730461371}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 1
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -3480,7 +3474,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -4514,6 +4508,7 @@ MonoBehaviour:
   flashScreen: {fileID: 1357909996}
   percentage: 0
   inDeath: 0
+  storyFile: {fileID: 4900000, guid: 048f99dc8d0243842805e38075b48855, type: 3}
 --- !u!4 &1645385443
 Transform:
   m_ObjectHideFlags: 0
@@ -4854,6 +4849,7 @@ MonoBehaviour:
   trapSpacerX: 10
   trapSpacerY: 2
   corridorSpawnBoost: 5
+  player: {fileID: 0}
 --- !u!4 &1845274343
 Transform:
   m_ObjectHideFlags: 0
