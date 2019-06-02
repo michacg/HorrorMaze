@@ -81,7 +81,9 @@ public class TrapTrigger : MonoBehaviour
         GameManager.instance.IncrementDeath(monster);
     }
 
-    private List<int[]> FindEmptyCells(bool row_restricted, bool start_restircted)
+    
+
+    private List<int[]> FindEmptyCells(bool row_restricted, bool start_restricted)
     {
         int[] size = GameManager.instance.GetMazeSize();
         byte[,] mazeArray = Generator.mazeArray;
@@ -93,7 +95,7 @@ public class TrapTrigger : MonoBehaviour
             // Search for empty cells on top side,
             // else search for empty cells on bottom side.
             int index = 1;
-            if (!start_restircted)
+            if (!start_restricted)
             {
                 index = size[1] - 2;
             }
@@ -108,7 +110,7 @@ public class TrapTrigger : MonoBehaviour
                     }
                 }
 
-                if (start_restircted)
+                if (start_restricted)
                     ++index;
                 else
                     --index;
@@ -121,7 +123,7 @@ public class TrapTrigger : MonoBehaviour
             // Search for empty cells on left side, 
             // else search for empty cells on right side.
             int index = 1;
-            if (!start_restircted)
+            if (!start_restricted)
             {
                 index = size[0] - 2;
             }
@@ -137,7 +139,7 @@ public class TrapTrigger : MonoBehaviour
                     }
                 }
 
-                if (start_restircted)
+                if (start_restricted)
                     ++index;
                 else
                     --index;
