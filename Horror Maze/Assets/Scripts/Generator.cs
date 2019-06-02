@@ -48,9 +48,9 @@ public class Generator : MonoBehaviour
 
         CreateExit();
 
-        CreateCeiling();
+        // CreateCeiling();
 
-        CreatePlayer();
+        Instantiate(player, new Vector3(1.5f,0.01f,1.5f), Quaternion.identity);   //instantiates the player at the beginning of the maze
     }
 
     private void GenerateMaze()
@@ -739,8 +739,8 @@ public class Generator : MonoBehaviour
         // Instantiate new Player at new position, and set it as the player 
         // in GameManager.
         */
-        Instantiate(player, new Vector3(1.5f,0.01f,1.5f), Quaternion.identity);
-        GameManager.instance.SetPlayerGO(player); 
+        //Instantiate(player, new Vector3(1.5f,0.01f,1.5f), Quaternion.identity);
+        //GameManager.instance.SetPlayerGO(player); 
     }
 
 /* 

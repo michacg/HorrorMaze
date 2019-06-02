@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     private int deaths = 0;
 
+    // Lists of dolls and ghosts
     private List<GameObject> dolls = new List<GameObject>();
     private List<GameObject> ghosts = new List<GameObject>();
 
