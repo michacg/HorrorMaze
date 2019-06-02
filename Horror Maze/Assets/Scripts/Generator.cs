@@ -26,6 +26,7 @@ public class Generator : MonoBehaviour
 
     public static byte[,] mazeArray;
     private List<Room> roomList;
+    public GameObject player;
 
     void Awake()
     {
@@ -48,6 +49,8 @@ public class Generator : MonoBehaviour
         CreateExit();
 
         CreateCeiling();
+
+        CreatePlayer();
     }
 
     private void GenerateMaze()
@@ -540,22 +543,28 @@ public class Generator : MonoBehaviour
                     {
                         if((trapPercentage + corridorSpawnBoost) > Random.Range(0, 101))
                         {
-                            GameObject go = Instantiate(corridorTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
-                            trapList.Add(go);
-                            mazeArray[i,j] = 1;
-                            trapLocations.Add(j);
-                            trapCount = 0;
+                            if(!(i == 0 && j == 0))
+                            {
+                                GameObject go = Instantiate(corridorTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                                trapList.Add(go);
+                                mazeArray[i,j] = 1;
+                                trapLocations.Add(j);
+                                trapCount = 0;
+                            }
                         }
                     }
                     else if(!isCorridor(i, j))
                     {
                         if(trapPercentage > Random.Range(0, 101))
                         {
-                            GameObject go = Instantiate(roomTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
-                            trapList.Add(go);
-                            mazeArray[i,j] = 1;
-                            trapLocations.Add(j);
-                            trapCount = 0;
+                            if(!(i == 0 && j == 0))
+                            {
+                                GameObject go = Instantiate(roomTraps[Random.Range(0, corridorTraps.Length)], new Vector3(0.5f + j, 0, 0.5f + i), Quaternion.identity);
+                                trapList.Add(go);
+                                mazeArray[i,j] = 1;
+                                trapLocations.Add(j);
+                                trapCount = 0;
+                            }
                         }
                     }
                 }
@@ -688,6 +697,52 @@ public class Generator : MonoBehaviour
         return false;
     }
 
+    public void CreatePlayer()
+    {
+        /*
+     // Forward definition for variables used inside
+        // the switch-case block.
+        List<int[]> empty_cells = new List<int[]>();
+
+        // align is used to figure out which side the player will be
+        // respawned at.
+        int align = Random.Range(0, 4);
+        switch (align)
+        {
+            // align == 0: player respawns on left side
+            case 0:
+                empty_cells = FindEmptyCells(false, true);
+                break;
+
+            // align == 1: player respawns on right side
+            case 1:
+                empty_cells = FindEmptyCells(false, false);
+                break;
+
+            // align == 2: player respanws on top side
+            case 2:
+                empty_cells = FindEmptyCells(true, true);
+                break;
+
+            // align == 3: player respawns on bottom side
+            case 3:
+                empty_cells = FindEmptyCells(true, false);
+                break;
+        }
+
+        int index = Random.Range(0, empty_cells.Count);
+        int[] temp = empty_cells[index];
+
+        // Define a new position to spawn the player.
+        Vector3 new_position = new Vector3(temp[1], 0.7f, temp[0]);
+
+        // Instantiate new Player at new position, and set it as the player 
+        // in GameManager.
+        */
+        Instantiate(player, new Vector3(1.5f,0.01f,1.5f), Quaternion.identity);
+        GameManager.instance.SetPlayerGO(player); 
+    }
+
 /* 
     private bool isCorner(int x, int y)  //returns true if piece is a corner piece
     {
@@ -722,6 +777,7 @@ public class Generator : MonoBehaviour
         return false;
     }
     */
+
 
     public void CreateCeiling()
     {
