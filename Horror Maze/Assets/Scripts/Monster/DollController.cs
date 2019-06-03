@@ -8,6 +8,7 @@ public class DollController : MonoBehaviour
     public float dollSpeed = 4;
     public float detectionRange = 3;
     public TrapTrigger trapScript;
+    public float lookSpeed = 10;
 
     private GameObject player;
     private CharacterController controller;
@@ -89,10 +90,6 @@ public class DollController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Since monsters are capsules right now, they collide with 
-        // walls and fall over. This is to keep them upright.
-        transform.eulerAngles = new Vector3(0, 0, 0);
-
         if (canMove)
         {
             player = GameManager.instance.GetPlayerGO();
@@ -158,6 +155,11 @@ public class DollController : MonoBehaviour
         // Move the agent using the CharacterController component
         // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
         controller.SimpleMove(velocity);
+
+        Vector3 lookDir = velocity;
+        lookDir.y = transform.forward.y;
+        Quaternion lookTarget = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookTarget, lookSpeed * Time.deltaTime);
     }
 
     void OnDrawGizmos()

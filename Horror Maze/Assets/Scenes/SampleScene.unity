@@ -3121,7 +3121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &973867297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5626,17 +5626,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c213eebac06754fa8c4f222900e4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitPortal: {fileID: 2619847871150294916, guid: bbd9641419307b94bbc160574e22807f,
+  exitPortal: {fileID: 3156225720567069991, guid: 34f0eed15f4047c4189026ae5019f5bd,
     type: 3}
   mazeWall: {fileID: 6920837182052808178, guid: 45c59b848c785034ab136856865b03fb,
     type: 3}
   trapNumber: 10
-  trapPrefab: {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
+  trapPrefab: {fileID: 285031756668757846, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7,
     type: 3}
   corridorTraps:
-  - {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc, type: 3}
+  - {fileID: 285031756668757846, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7, type: 3}
   roomTraps:
-  - {fileID: 508987151500133005, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc, type: 3}
+  - {fileID: 285031756668757846, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7, type: 3}
   trapList: []
   ceilingTile: {fileID: 6918040428268951177, guid: 19a126c11dcd0e144b8ba864fb98899e,
     type: 3}
@@ -6709,7 +6709,6 @@ MonoBehaviour:
   storyFile: {fileID: 4900000, guid: 048f99dc8d0243842805e38075b48855, type: 3}
   percentage: 0
   inDeath: 0
-  storyFile: {fileID: 0}
 --- !u!4 &2130899810
 Transform:
   m_ObjectHideFlags: 0

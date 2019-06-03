@@ -52,7 +52,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -2511716068686066106, guid: c48a31c536d9f5641bd03365d52c3f58, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostSpeed: 2
-  trapScript: {fileID: 508987151500133232, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
+  trapScript: {fileID: 9023334500153889614, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7,
     type: 3}
 --- !u!82 &7590475148969332202
 AudioSource:

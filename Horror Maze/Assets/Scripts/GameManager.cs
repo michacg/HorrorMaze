@@ -85,6 +85,18 @@ public class GameManager : MonoBehaviour
         List<GameObject> traps = generatorScript.trapList;
         List<Transform> result = new List<Transform>();
 
+        // Remove any traps that have been deleted. 
+        int index = 0;
+        while (index < traps.Count)
+        {
+            if (traps[index] == null)
+            {
+                traps.RemoveAt(index);
+            }
+
+            index++;
+        }
+
         foreach (GameObject go in traps)
         {
             result.Add(go.transform);

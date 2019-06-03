@@ -115,8 +115,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dollSpeed: 4
   detectionRange: 7
-  trapScript: {fileID: 508987151500133232, guid: 0c6aa5ab0f347ac4e87021707e1a4bfc,
+  trapScript: {fileID: 9023334500153889614, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7,
     type: 3}
+  lookSpeed: 100
   nextWaypointDistance: 1
   reachedEndOfPath: 0
 --- !u!114 &4342884761270027141

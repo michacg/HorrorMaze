@@ -48,9 +48,9 @@ public class Generator : MonoBehaviour
 
         CreateExit();
 
-        // CreateCeiling();
+        //CreateCeiling();
 
-        Instantiate(player, new Vector3(1.5f,0.01f,1.5f), Quaternion.identity);   //instantiates the player at the beginning of the maze
+        Instantiate(player, new Vector3(1.5f,0.3f,1.5f), Quaternion.identity);   //instantiates the player at the beginning of the maze
     }
 
     private void GenerateMaze()
@@ -631,7 +631,7 @@ public class Generator : MonoBehaviour
             {
                 if(!isCorridor(randRow, randCol))
                 {
-                    Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.identity);
+                    Instantiate(exitPortal, new Vector3(0.5f + randCol, 1, 0.5f + randRow ), Quaternion.Euler(-90f, 0, 0));
                     break;
                 }
             }

@@ -6,6 +6,7 @@ public class GhostController : MonoBehaviour
 {
     public float ghostSpeed = 2;
     public TrapTrigger trapScript;
+    public float lookSpeed = 100;
 
     private CharacterController controller;
     private GameObject player;
@@ -24,9 +25,6 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Since monsters are capsules right now, they collide with 
-        // walls and fall over. This is to keep them upright.
-        transform.eulerAngles = new Vector3(0, 0, 0);
         player = GameManager.instance.GetPlayerGO();
 
         GhostAI();
@@ -42,6 +40,11 @@ public class GhostController : MonoBehaviour
         // Move towards player
         Vector3 velocity = dir * ghostSpeed;
         controller.SimpleMove(velocity);
+
+        Vector3 lookDir = velocity;
+        lookDir.y = transform.forward.y;
+        Quaternion lookTarget = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookTarget, lookSpeed * Time.deltaTime);
     }
 
     // Ghost restarts from its original starting point. This
