@@ -59,8 +59,6 @@ public class DollController : MonoBehaviour
 
         deathOrigin = transform.position;
 
-        // Get all the trap locations in the maze
-        trapLocations = GameManager.instance.GetTrapsTransforms();
         DistComparison comparer = new DistComparison();
         trapLocations.Sort(comparer);
     }
@@ -92,6 +90,9 @@ public class DollController : MonoBehaviour
     {
         if (canMove)
         {
+            // Get all the trap locations in the maze
+            trapLocations = GameManager.instance.GetTrapsTransforms();
+
             player = GameManager.instance.GetPlayerGO();
             DollAI();
         }
@@ -204,6 +205,7 @@ public class DollController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
+            Debug.Log("Deleting player " + hit.gameObject);
             trapScript.Respawn(hit.gameObject, transform.position);
         }
     }

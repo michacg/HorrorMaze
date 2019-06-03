@@ -93,7 +93,7 @@ public class FadeManager : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.25f);
         deathScreen.color = new Color(deathScreen.color.r, deathScreen.color.g, deathScreen.color.b, 0);
         storyText.color = new Color(storyText.color.r, storyText.color.g, storyText.color.b, 0);
         inDeath = false;
