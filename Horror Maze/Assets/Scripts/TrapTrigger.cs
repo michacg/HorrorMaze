@@ -35,17 +35,11 @@ public class TrapTrigger : MonoBehaviour
         }
         
     }
+
     // Respawn is made public so that the MonsterController
     // script can reuse the player respawn code.
     public void Respawn(GameObject other, Vector3 old_position)
     {
-        // Prevents duplicate players from spawning
-        GameObject current_player = GameManager.instance.GetPlayerGO();
-        if (current_player.name.Equals(other.name + "(Clone)"))
-        {
-            return;
-        }
-
         // Forward definition for variables used inside
         // the switch-case block.
         List<int[]> empty_cells = new List<int[]>();
@@ -96,8 +90,6 @@ public class TrapTrigger : MonoBehaviour
 
         GameManager.instance.IncrementDeath(monster);
     }
-
-    
 
     private List<int[]> FindEmptyCells(bool row_restricted, bool start_restricted)
     {
