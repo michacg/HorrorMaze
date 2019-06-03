@@ -6,10 +6,19 @@ public class TrapTrigger : MonoBehaviour
 {
     public GameObject monsterPrefab;
 
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = transform.GetChild(0).GetComponent<Animator>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("Player"))
         {
+            animator.SetTrigger("Triggered");
+
             GetComponent<AudioSource>().Play();
             FadeManager.instance.StartDeath();  //begin fade animation to black once player triggers a trap
             StartCoroutine(Respawn(other));     //delay the respawn a bit to respawn AFTER the screen fades to black

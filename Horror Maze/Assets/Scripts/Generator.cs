@@ -48,7 +48,7 @@ public class Generator : MonoBehaviour
 
         CreateExit();
 
-        //CreateCeiling();
+        CreateCeiling();
 
         Instantiate(player, new Vector3(1.5f,0.3f,1.5f), Quaternion.identity);   //instantiates the player at the beginning of the maze
     }
