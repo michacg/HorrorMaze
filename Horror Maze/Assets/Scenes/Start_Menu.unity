@@ -2591,6 +2591,7 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 2
     fadeOutTime: 2
+    endFade: 1
   - name: Ambience
     loop: 1
     clip: {fileID: 8300000, guid: 8bd66f71cea6a134ba4e3c6bd2dbf7ec, type: 3}
@@ -2599,6 +2600,7 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 2
     fadeOutTime: 2
+    endFade: 0.45
   - name: Fire
     loop: 1
     clip: {fileID: 8300000, guid: 6a50589c8a1bc1b4987290fec44ee77c, type: 3}
@@ -2607,6 +2609,7 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 2250
     fadeOutTime: 2
+    endFade: 0.6
   - name: LastRoomSong
     loop: 1
     clip: {fileID: 8300000, guid: 74fecaa2610b3764fbca98cafc3bdf06, type: 3}
@@ -2615,15 +2618,17 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 2
     fadeOutTime: 2
+    endFade: 1
   effects:
   - name: anxiety
     loop: 0
     clip: {fileID: 8300000, guid: f3389211a99bce34aae233e3db051383, type: 3}
-    volume: 1
+    volume: 0.7
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: Crash
     loop: 0
     clip: {fileID: 8300000, guid: a58f3fd066ad2e54492d0145eac6baaa, type: 3}
@@ -2632,62 +2637,70 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: MetalSlide
     loop: 0
     clip: {fileID: 8300000, guid: b2f9ee32f4855db4b9bd884f12349773, type: 3}
-    volume: 0.409
+    volume: 0.35
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: Distortion
     loop: 0
     clip: {fileID: 8300000, guid: 9b06ac5bf1e03e94abc6942b1e019994, type: 3}
-    volume: 0.514
+    volume: 0.4
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: Static
     loop: 0
     clip: {fileID: 8300000, guid: f504506849fd05640ad3a3125fa20363, type: 3}
-    volume: 0.217
+    volume: 0.35
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: SpaceTunnel
     loop: 0
     clip: {fileID: 8300000, guid: 1f38c2cf0a766424a8cae61c6bf07ef6, type: 3}
-    volume: 0.284
+    volume: 0.3
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: PianoVibrate
     loop: 0
     clip: {fileID: 8300000, guid: 5589b92d946f345489ccd61b411b8c8f, type: 3}
-    volume: 0.59
+    volume: 0.45
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: Whisper
     loop: 0
     clip: {fileID: 8300000, guid: f79471f5c54ed3442a96da74d866f949, type: 3}
-    volume: 0.339
+    volume: 0.3
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   - name: LowPianoNotes
     loop: 0
     clip: {fileID: 8300000, guid: 64ef202895c25664dba5431a475ff004, type: 3}
-    volume: 0.667
+    volume: 0.5
     pitch: 1
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
   CR_running: 0
   currentSongs: []
   currentEffect:
@@ -2699,6 +2712,7 @@ MonoBehaviour:
     source: {fileID: 0}
     fadeInTime: 0
     fadeOutTime: 0
+    endFade: 0
 --- !u!4 &1418120023
 Transform:
   m_ObjectHideFlags: 0

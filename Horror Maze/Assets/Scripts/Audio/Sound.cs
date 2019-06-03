@@ -18,4 +18,5 @@ public class Sound
     public AudioSource source;
     public int fadeInTime;
     public int fadeOutTime;
+    public float endFade;
 }

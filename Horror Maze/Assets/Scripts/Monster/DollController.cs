@@ -14,6 +14,9 @@ public class DollController : MonoBehaviour
     private CharacterController controller;
     private static Vector3 deathOrigin;
     private bool canMove = true;
+    // -------- Audio ---------
+    private AudioSource audio1;
+    private AudioSource audio2;
 
     // -------- AI components --------
     private List<Transform> trapLocations;
@@ -49,7 +52,7 @@ public class DollController : MonoBehaviour
     void Start()
     {
         // Plays monster noises for the duration of the monster's life
-        StartCoroutine(MonsterNoises());
+        StartMonsterNoise();
         // Get a reference to the Seeker component we added earlier
         seeker = GetComponent<Seeker>();
         // OnPathComplete will be called every time a path is returned to this seeker
@@ -212,13 +215,21 @@ public class DollController : MonoBehaviour
         }
     }
 
-    // Plays a monster noise every 7-13 seconds when within range
-    private IEnumerator MonsterNoises()
+    // Starts a monster background noise and then plays a different noise within 15-25 seconds
+    private void StartMonsterNoise()
+    {
+        audio1 = GetComponents<AudioSource>()[0];
+        audio2 = GetComponents<AudioSource>()[1];
+        audio1.Play();
+        StartCoroutine(MonsterNoises());
+    }
+        private IEnumerator MonsterNoises()
     {
         while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(7, 13));
-            GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(10, 20));
+            Debug.Log("playing giggle");
+            audio2.Play();
         }
     }
 }

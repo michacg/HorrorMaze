@@ -139,7 +139,7 @@ public class AudioManager : MonoBehaviour
     {
         CR_running = true;
         s.source.Play();
-        while (s.source.volume < 1.0f)
+        while (s.source.volume < s.endFade)
         {
             s.source.volume += Time.deltaTime / s.fadeInTime; //fades in over course of seconds fadeTime
             yield return null;

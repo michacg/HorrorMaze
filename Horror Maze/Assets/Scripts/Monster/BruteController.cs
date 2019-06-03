@@ -8,6 +8,11 @@ public class BruteController : MonoBehaviour
     public float bruteSpeed = 1;
     public float lookSpeed = 50;
 
+    // -------- Audio ----------
+    private AudioSource audio1;
+    private AudioSource audio2;
+    private AudioSource audio3;
+
     // -------- Charging customizations --------
     public float chargeSpeed = 10;
     public float chargeCD = 5; // seconds until next charge ability
@@ -37,7 +42,7 @@ public class BruteController : MonoBehaviour
     void Start()
     {
         // Plays monster noises for the duration of the monster's life
-        StartCoroutine(MonsterNoises());
+        StartMonsterNoise();
         // Get a reference to the Seeker component we added earlier
         seeker = GetComponent<Seeker>();
         // OnPathComplete will be called every time a path is returned to this seeker
@@ -179,6 +184,8 @@ public class BruteController : MonoBehaviour
     private void EnableChargeMode()
     {
         Debug.Log("Charge mode activated...");
+        //Plays an audio clip every time the brute charges
+        audio2.Play();
         isCharging = true;
         Vector3 dir = (player.transform.position - transform.position).normalized;
         Vector3 velocity = dir * chargeSpeed;
@@ -268,13 +275,22 @@ public class BruteController : MonoBehaviour
         }
     }
 
-    // Plays a monster noise every 7-13 seconds when within range
-    private IEnumerator MonsterNoises()
+    // Starts a monster background noise and then plays a different noise within 100-150 seconds
+    private void StartMonsterNoise()
+    {
+        audio1 = GetComponents<AudioSource>()[0];
+        audio2 = GetComponents<AudioSource>()[1];
+        audio3 = GetComponents<AudioSource>()[2];
+        audio1.Play();
+        StartCoroutine(MonsterNoises());
+    }
+        private IEnumerator MonsterNoises()
     {
         while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(7, 13));
-            GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(100, 150));
+            Debug.Log("playing moan");
+            audio2.Play();
         }
     }
 }

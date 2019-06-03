@@ -11,13 +11,14 @@ public class GhostController : MonoBehaviour
     private CharacterController controller;
     private GameObject player;
     private Vector3 origin;
+    private AudioSource audio1;
+    private AudioSource audio2;
 
     // Start is called before the first frame update
     void Start()
     {
         // Plays monster noises for the duration of the monster's life
-        StartCoroutine(MonsterNoises());
-
+        StartMonsterNoise();
         controller = GetComponent<CharacterController>();
         origin = transform.position;
     }
@@ -66,13 +67,23 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    // Plays a monster noise every 7-13 seconds when within range
+    // Starts a monster background noise and then plays a different noise within 30-50 seconds
+
+    private void StartMonsterNoise()
+    {
+        audio1 = GetComponents<AudioSource>()[0];
+        audio2 = GetComponents<AudioSource>()[1];
+        audio2.Play();
+        StartCoroutine(MonsterNoises());
+    }
+
     private IEnumerator MonsterNoises()
     {
         while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(7, 13));
-            GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(30, 50));
+            Debug.Log("playing scream");
+            audio2.Play();
         }
     }
 }
