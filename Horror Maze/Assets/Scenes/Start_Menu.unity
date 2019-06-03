@@ -3869,11 +3869,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: " DESIGNER\t\t\t\t\tTIMOTHY QUACH\n PROGRAMMER / DESIGNER\t\t\tRICHARD HSU\n
-    PROGRAMMERS\t\t\t\tJOHNNY VONG\n\t\t\t\t\t\tJOSHUA LEBOW\n\t\t\t\t\t\tSHAY WELLER\n
-    TEAM LEAD / PRODUCER\t\t\tMICHAELA GONZALES\n\n\n ASSETS\n   \n    BEDROOM FURNITURE
-    PACK  BY  T ALLEN STUDIOS\n    DOLL  BY  SCOPIA\n    CHILD GIGGLE  BY  RASPBERRYTICKLE\n
-    \   TRAGIC STORY  BY  MYUU\n    HAUNTED  BY  ROSS BUGDEN\n"
+  m_text: " TEAM LEAD / PRODUCER\t\t\tMICHAELA GONZALES\n DESIGNER\t\t\t\t\tTIMOTHY
+    QUACH\n PROGRAMMER / DESIGNER\t\t\tRICHARD HSU\n PROGRAMMERS\t\t\t\tJOHNNY VONG\n\t\t\t\t\t\tJOSHUA
+    LEBOW\n\t\t\t\t\t\tSHAY WELLER\n\n\n ASSETS\n   \n    BEDROOM FURNITURE PACK  BY
+    \ T ALLEN STUDIOS\n    DOLL  BY  SCOPIA\n    CHILD GIGGLE  BY  RASPBERRYTICKLE\n
+    \   TRAGIC STORY  BY  MYUU\n    HAUNTED  BY  ROSS BUGDEN\n    FLAMEPARTICLE2,
+    SANDYWOODA  BY  BENKYOU STUDIO\n    SPIKE TRAP  BY  HELYX SILVEIRA\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c0d9c4231a7a113438ded79b5dfc59b1, type: 2}
   m_sharedMaterial: {fileID: -5886433283435675483, guid: c0d9c4231a7a113438ded79b5dfc59b1,
