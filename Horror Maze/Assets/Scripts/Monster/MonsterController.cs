@@ -36,8 +36,8 @@ public class MonsterController : MonoBehaviour
         yield return new WaitForSeconds(fireTime);
         Destroy(fire);
 
-        //int monsterType = 1; // debugging AI purposes
-        int monsterType = Random.Range(0, monsters.Length);
+        int monsterType = 1; // debugging AI purposes
+        // int monsterType = Random.Range(0, monsters.Length);
         Vector3 position = transform.position;
         position.y = 1;
 

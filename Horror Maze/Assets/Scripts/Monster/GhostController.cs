@@ -14,6 +14,8 @@ public class GhostController : MonoBehaviour
     private AudioSource audio1;
     private AudioSource audio2;
 
+    private Camera playerCamera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class GhostController : MonoBehaviour
         StartMonsterNoise();
         controller = GetComponent<CharacterController>();
         origin = transform.position;
+
     }
 
     // Update is called once per frame
@@ -28,7 +31,10 @@ public class GhostController : MonoBehaviour
     {
         player = GameManager.instance.GetPlayerGO();
 
+        Debug.Log(playerCamera.transform.position);
+
         GhostAI();
+         
     }
 
     private void GhostAI()
@@ -63,6 +69,7 @@ public class GhostController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
+
             trapScript.Respawn(hit.gameObject, transform.position);
         }
     }

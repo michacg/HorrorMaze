@@ -211,9 +211,36 @@ public class DollController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
-            trapScript.Respawn(hit.gameObject, transform.position);
+            StartCoroutine(JumpScare(hit.gameObject));
         }
     }
+
+
+    public IEnumerator JumpScare(GameObject player)
+    {
+
+        player.GetComponent<MonsterJumpScare>().Show(2);
+        //player.GetComponent<FirstPersonController>().
+        
+
+        Time.timeScale = 0;
+        //lock camera movement
+        yield return new WaitForSecondsRealtime(2f);
+        Time.timeScale = 1;
+        trapScript.Respawn(player, transform.position);
+        Destroy(this.gameObject);
+
+        //StartCoroutine(Respawn(player));
+
+    }
+
+    public IEnumerator Respawn(GameObject player)
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        
+
+    }
+
 
     // Starts a monster background noise and then plays a different noise within 15-25 seconds
     private void StartMonsterNoise()
@@ -223,7 +250,8 @@ public class DollController : MonoBehaviour
         audio1.Play();
         StartCoroutine(MonsterNoises());
     }
-        private IEnumerator MonsterNoises()
+
+    private IEnumerator MonsterNoises()
     {
         while (true)
         {

@@ -11,6 +11,7 @@ public class TrapTrigger : MonoBehaviour
     private void Start()
     {
         animator = transform.GetChild(0).GetComponent<Animator>();
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -19,9 +20,11 @@ public class TrapTrigger : MonoBehaviour
         {
             animator.SetTrigger("Triggered");
 
+            
             GetComponent<AudioSource>().Play();
             FadeManager.instance.StartDeath();  //begin fade animation to black once player triggers a trap
             StartCoroutine(Respawn(other));     //delay the respawn a bit to respawn AFTER the screen fades to black
+
         }                                       //TODO: de-activate player movement during screen fade
     }                                           //      add player respawn text
 
@@ -40,6 +43,11 @@ public class TrapTrigger : MonoBehaviour
     // script can reuse the player respawn code.
     public void Respawn(GameObject other, Vector3 old_position)
     {
+
+        //Animation Event here
+
+
+
         // Forward definition for variables used inside
         // the switch-case block.
         List<int[]> empty_cells = new List<int[]>();
