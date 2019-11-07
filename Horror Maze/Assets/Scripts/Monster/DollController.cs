@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class DollController : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public class DollController : MonoBehaviour
 
     public void OnPathComplete(Path p)
     {
-        Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
+        //Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
 
         if (!p.error)
         {
@@ -186,7 +187,7 @@ public class DollController : MonoBehaviour
         // straight for the player. 
         if (Vector3.Distance(player.transform.position, transform.position) <= detectionRange)
         {
-            Debug.Log("Player detected, fuck em up time");
+            //DDebug.Log("Player detected, fuck em up time");
             // Start to calculate a new path to the targetPosition object, return the result to the OnPathComplete method.
             // Path requests are asynchronous, so when the OnPathComplete method is called depends on how long it
             // takes to calculate the path. Usually it is called the next frame.
@@ -220,12 +221,17 @@ public class DollController : MonoBehaviour
     {
 
         player.GetComponent<MonsterJumpScare>().Show(2);
-        //player.GetComponent<FirstPersonController>().
-        
+        player.GetComponent<FirstPersonController>().enabled = false;
+        //this.gameObject.SetActive(false);
+        GetComponentInChildren<MeshRenderer>().enabled = false;
 
         Time.timeScale = 0;
+        Debug.Log("TIME FREEZE");
         //lock camera movement
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(1);
+
+        Debug.Log("TIME START AGAIN");
+        player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
         Destroy(this.gameObject);

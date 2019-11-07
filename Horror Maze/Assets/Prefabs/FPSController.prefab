@@ -320,6 +320,7 @@ Transform:
   m_Children:
   - {fileID: 5081098911773767584}
   - {fileID: 7314742773640948319}
+  - {fileID: 6955562796885684415}
   m_Father: {fileID: 6344885708657875038}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -382,6 +383,116 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3381197103641517723}
   m_Enabled: 1
+--- !u!1 &3928407824018249923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6955562796885684415}
+  - component: {fileID: 7768122072253418340}
+  - component: {fileID: 5200036856863138442}
+  m_Layer: 11
+  m_Name: JumpScareLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6955562796885684415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928407824018249923}
+  m_LocalRotation: {x: -0.5735764, y: 0, z: 0, w: 0.8191521}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 1628477028918092904}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -70, y: 0, z: 0}
+--- !u!108 &7768122072253418340
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928407824018249923}
+  m_Enabled: 1
+  serializedVersion: 9
+  m_Type: 0
+  m_Color: {r: 0.9924317, g: 1, b: 0.6556604, a: 1}
+  m_Intensity: 2
+  m_Range: 20
+  m_SpotAngle: 40
+  m_InnerSpotAngle: 1
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 1
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 1
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 1.7579e-41, y: 1.7757e-41, z: NaN, w: 1.4348e-41}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!114 &5200036856863138442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928407824018249923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d64c047c7eacab4fa4459ed5c5d703e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastGhostAngle: 5
+  raycastDollAngle: 20
+  raycastDistance: 10
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4608
 --- !u!1 &5344346732558190316
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,17 +623,17 @@ PrefabInstance:
     - target: {fileID: 1751324646133121044, guid: d48af44d2aec18146a43b96fdccb2885,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.015707111
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1751324646133121044, guid: d48af44d2aec18146a43b96fdccb2885,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.12
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 1751324646133121044, guid: d48af44d2aec18146a43b96fdccb2885,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.95
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: 1751324646133121044, guid: d48af44d2aec18146a43b96fdccb2885,
         type: 3}
