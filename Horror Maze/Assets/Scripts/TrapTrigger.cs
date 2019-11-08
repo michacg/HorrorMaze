@@ -89,6 +89,7 @@ public class TrapTrigger : MonoBehaviour
         GameObject new_player = Instantiate(other, new_position, Quaternion.identity);
         GameManager.instance.SetPlayerGO(new_player);
 
+        Debug.Log("Destroying player " + other);
         // Delete the player GameObject.
         Destroy(other);
 

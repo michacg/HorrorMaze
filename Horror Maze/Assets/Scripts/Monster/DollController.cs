@@ -221,21 +221,20 @@ public class DollController : MonoBehaviour
     {
 
         player.GetComponent<MonsterJumpScare>().Show(2);
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = false;
         //this.gameObject.SetActive(false);
         GetComponentInChildren<MeshRenderer>().enabled = false;
 
         Time.timeScale = 0;
-        Debug.Log("TIME FREEZE");
         //lock camera movement
         yield return new WaitForSecondsRealtime(1);
 
-        Debug.Log("TIME START AGAIN");
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(false);
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
+        GetComponentInChildren<MeshRenderer>().enabled = true;
         trapScript.Respawn(player, transform.position);
-        Destroy(this.gameObject);
-
         //StartCoroutine(Respawn(player));
 
     }

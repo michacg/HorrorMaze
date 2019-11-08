@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class GhostController : MonoBehaviour
 {
@@ -69,9 +70,34 @@ public class GhostController : MonoBehaviour
     {
         if (hit.gameObject.tag.Equals("Player"))
         {
-
-            trapScript.Respawn(hit.gameObject, transform.position);
+            StartCoroutine(JumpScare(hit.gameObject));
         }
+    }
+
+
+    public IEnumerator JumpScare(GameObject player)
+    {
+
+        player.GetComponent<MonsterJumpScare>().Show(2);
+        player.transform.Find("JumpScareLight").gameObject.SetActive(true);
+        player.GetComponent<FirstPersonController>().enabled = false;
+        //this.gameObject.SetActive(false);
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+
+        Time.timeScale = 0;
+        Debug.Log("TIME FREEZE");
+        //lock camera movement
+        yield return new WaitForSecondsRealtime(1);
+
+        Debug.Log("TIME START AGAIN");
+        player.transform.Find("JumpScareLight").gameObject.SetActive(false);
+        player.GetComponent<FirstPersonController>().enabled = true;
+        Time.timeScale = 1;
+        trapScript.Respawn(player, transform.position);
+        Destroy(this.gameObject);
+
+        //StartCoroutine(Respawn(player));
+
     }
 
     // Starts a monster background noise and then plays a different noise within 30-50 seconds
