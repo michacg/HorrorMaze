@@ -15,7 +15,7 @@ public class GhostController : MonoBehaviour
     private AudioSource audio1;
     private AudioSource audio2;
 
-    private Camera playerCamera;
+    //private Camera playerCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +32,7 @@ public class GhostController : MonoBehaviour
     {
         player = GameManager.instance.GetPlayerGO();
 
-        Debug.Log(playerCamera.transform.position);
+        //Debug.Log(playerCamera.transform.position);
 
         GhostAI();
          
@@ -78,10 +78,9 @@ public class GhostController : MonoBehaviour
     public IEnumerator JumpScare(GameObject player)
     {
 
-        player.GetComponent<MonsterJumpScare>().Show(2);
-        player.transform.Find("JumpScareLight").gameObject.SetActive(true);
+        player.GetComponent<MonsterJumpScare>().Show(1);
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = false;
-        //this.gameObject.SetActive(false);
         GetComponentInChildren<MeshRenderer>().enabled = false;
 
         Time.timeScale = 0;
@@ -90,13 +89,11 @@ public class GhostController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
 
         Debug.Log("TIME START AGAIN");
-        player.transform.Find("JumpScareLight").gameObject.SetActive(false);
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(false); 
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
         Destroy(this.gameObject);
-
-        //StartCoroutine(Respawn(player));
 
     }
 

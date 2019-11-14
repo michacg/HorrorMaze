@@ -279,8 +279,8 @@ public class BruteController : MonoBehaviour
     public IEnumerator JumpScare(GameObject player)
     {
 
-        player.GetComponent<MonsterJumpScare>().Show(2);
-        player.transform.Find("JumpScareLight").gameObject.SetActive(true);
+        player.GetComponent<MonsterJumpScare>().Show(3);
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = false;
         //this.gameObject.SetActive(false);
         GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -291,13 +291,11 @@ public class BruteController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
 
         Debug.Log("TIME START AGAIN");
-        player.transform.Find("JumpScareLight").gameObject.SetActive(false);
+        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(false);
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
         Destroy(this.gameObject);
-
-        //StartCoroutine(Respawn(player));
 
     }
 

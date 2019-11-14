@@ -93,6 +93,8 @@ public class TrapTrigger : MonoBehaviour
         // Delete the player GameObject.
         Destroy(other);
 
+        Debug.Log("Checking player destroyed: " + other);
+
         // Quaternion Euler here is used to make the dead body 
         // lie with no rotation.
         GameObject monster = Instantiate(monsterPrefab, old_position, Quaternion.Euler(0f, 0f, 0f));
