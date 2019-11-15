@@ -47,7 +47,7 @@ public class TrapTrigger : MonoBehaviour
         //Animation Event here
 
 
-
+        /*
         // Forward definition for variables used inside
         // the switch-case block.
         List<int[]> empty_cells = new List<int[]>();
@@ -80,9 +80,10 @@ public class TrapTrigger : MonoBehaviour
 
         int index = Random.Range(0, empty_cells.Count);
         int[] temp = empty_cells[index];
+        */
 
         // Define a new position to spawn the player.
-        Vector3 new_position = new Vector3(temp[1], 0.7f, temp[0]);
+        Vector3 new_position = new Vector3(1.5f, 0.7f, 1.5f);
 
         // Instantiate new Player at new position, and set it as the player 
         // in GameManager.

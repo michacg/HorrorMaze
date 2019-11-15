@@ -42,6 +42,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private Animator animator;
+
         // Use this for initialization
         private void Start()
         {
@@ -55,6 +57,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+
+            animator = GetComponentInChildren<Animator>();
         }
 
 
@@ -132,6 +136,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
                 }
                 m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+                Animate();
 
                 ProgressStepCycle(speed);
                 UpdateCameraPosition(speed);
@@ -261,6 +266,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        private void Animate()
+        {
+            if (m_MoveDir.x != 0 && m_MoveDir.z != 0)
+            {
+                if (m_MoveDir.z > 0)
+                    animator.SetBool("walking", true);
+                else
+                    animator.SetBool("walking_back", true);
+            }
+            else
+            {
+                animator.SetBool("walking_back", false);
+                animator.SetBool("walking", false);
+            }
         }
     }
 }
