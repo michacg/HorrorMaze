@@ -625,6 +625,8 @@ public class Generator : MonoBehaviour
         int randRow;
         while(true) //for testing
         {
+            //randCol = UnityEngine.Random.Range(((int)(cols - (0.8 * cols))), cols);
+            //randRow = UnityEngine.Random.Range(())
             randCol = UnityEngine.Random.Range((int)((cols/2) - (0.2 * cols)), (int)((cols/2) + (0.2 * cols)));
             randRow = UnityEngine.Random.Range((int)((rows/2) - (0.2 * rows)), (int)((rows/2) + (0.2 * rows)));
             if(mazeArray[randRow, randCol] == 0)
