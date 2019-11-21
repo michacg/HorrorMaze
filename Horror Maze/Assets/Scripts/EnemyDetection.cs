@@ -25,6 +25,10 @@ public class EnemyDetection : MonoBehaviour
 
         foreach (GameObject go in monsters)
         {
+            if (go == null)
+            {
+                continue;
+            }
             Vector3 direction = go.transform.position - fpsCamera.transform.position;
 
             // If the monster is within the cone detection range

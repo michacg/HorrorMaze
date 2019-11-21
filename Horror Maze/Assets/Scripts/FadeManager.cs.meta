@@ -3,7 +3,11 @@ guid: 74acbb7754555a142810abc03a323179
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deathScreen: {instanceID: 0}
+  - flashScreen: {instanceID: 0}
+  - storyText: {instanceID: 0}
+  - storyFile: {fileID: 4900000, guid: 048f99dc8d0243842805e38075b48855, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

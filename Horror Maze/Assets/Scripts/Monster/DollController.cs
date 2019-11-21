@@ -221,7 +221,7 @@ public class DollController : MonoBehaviour
     {
 
         player.GetComponent<MonsterJumpScare>().Show(2);
-        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(true);
+        player.transform.GetChild(2).Find("JumpScareLight").gameObject.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = false;
         //this.gameObject.SetActive(false);
         GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -230,7 +230,7 @@ public class DollController : MonoBehaviour
         //lock camera movement
         yield return new WaitForSecondsRealtime(1);
 
-        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(false);
+        player.transform.GetChild(2).Find("JumpScareLight").gameObject.SetActive(false);
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         GetComponentInChildren<MeshRenderer>().enabled = true;

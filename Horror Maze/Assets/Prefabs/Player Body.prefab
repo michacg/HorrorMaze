@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8678424446971895995}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 5706209149094153946}
   m_Father: {fileID: 0}
@@ -197,11 +197,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeadIdle
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b1c8ead607bf6504f9ed6318a021b663,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 96c10b95d3a02d341b2c967b4ca4a01f, type: 2}
     - target: {fileID: -4216859302048453862, guid: b1c8ead607bf6504f9ed6318a021b663,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -272,6 +267,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.57
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: b1c8ead607bf6504f9ed6318a021b663,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 96c10b95d3a02d341b2c967b4ca4a01f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1c8ead607bf6504f9ed6318a021b663, type: 3}
 --- !u!4 &5706209149094153946 stripped

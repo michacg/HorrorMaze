@@ -280,7 +280,7 @@ public class BruteController : MonoBehaviour
     {
 
         player.GetComponent<MonsterJumpScare>().Show(3);
-        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(true);
+        player.transform.GetChild(2).Find("JumpScareLight").gameObject.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = false;
         //this.gameObject.SetActive(false);
         GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -291,7 +291,7 @@ public class BruteController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
 
         Debug.Log("TIME START AGAIN");
-        player.transform.GetChild(0).Find("JumpScareLight").gameObject.SetActive(false);
+        player.transform.GetChild(2).Find("JumpScareLight").gameObject.SetActive(false);
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
