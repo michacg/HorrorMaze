@@ -8249,18 +8249,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b2d47fdc2e25ac4f9721480a68bbefa, type: 3}
---- !u!114 &676734416 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7942839475621442511, guid: 02a8fae083546c243bca9cbb1b8147fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 7942839476018714143}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af09811a7e4560a41b865f1d82f7de4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &679693195 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6920837182052808182, guid: 45c59b848c785034ab136856865b03fb,
@@ -26370,7 +26358,6 @@ GameObject:
   - component: {fileID: 1387759146}
   - component: {fileID: 1387759145}
   - component: {fileID: 1387759144}
-  - component: {fileID: 1387759143}
   m_Layer: 0
   m_Name: TablePortal (1)
   m_TagString: Untagged
@@ -26392,21 +26379,6 @@ Transform:
   m_Father: {fileID: 449536524}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &1387759143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387759141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aceebb1f424e83448bcfba0e454216e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GM: {fileID: 0}
-  GMScript: {fileID: 0}
-  fade: {fileID: 676734416}
 --- !u!65 &1387759144
 BoxCollider:
   m_ObjectHideFlags: 0
