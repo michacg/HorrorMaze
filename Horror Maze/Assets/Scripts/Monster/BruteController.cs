@@ -24,6 +24,8 @@ public class BruteController : MonoBehaviour
     public LayerMask layerMask;
     public TrapTrigger trapScript;
 
+    [SerializeField] float coolDown = 5f;
+
     private GameObject player;
     private CharacterController controller;
     private bool isCharging = false; // is the brute currently in charge mode
@@ -39,6 +41,9 @@ public class BruteController : MonoBehaviour
     public bool reachedEndOfPath = false;
     private int currentWaypoint = 0;
 
+    private MeshRenderer bruteRender;
+    private bool respawnCoolDown = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +56,8 @@ public class BruteController : MonoBehaviour
 
         controller = GetComponent<CharacterController>();
         cdTimer = chargeCD;
+
+        bruteRender = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -62,7 +69,8 @@ public class BruteController : MonoBehaviour
 
         player = GameManager.instance.GetPlayerGO();
 
-        BruteAI();
+        if (!respawnCoolDown)
+            BruteAI();
     }
 
     private void FollowPath(float speed)
@@ -295,8 +303,20 @@ public class BruteController : MonoBehaviour
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
-        Destroy(this.gameObject);
+        StartCoroutine(RespawnTimer());
+    }
 
+    public IEnumerator RespawnTimer()
+    {
+        respawnCoolDown = true;
+        bruteRender.enabled = false;
+        controller.enabled = false;
+
+        yield return new WaitForSeconds(coolDown);
+
+        respawnCoolDown = false;
+        bruteRender.enabled = true;
+        controller.enabled = true;
     }
 
     // Starts a monster background noise and then plays a different noise within 100-150 seconds

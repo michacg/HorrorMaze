@@ -37,7 +37,7 @@ public class MonsterController : MonoBehaviour
         Destroy(fire);
 
         //int monsterType = 1; // debugging AI purposes
-        int monsterType = 0;
+        int monsterType = Random.Range(0, 3);
         Vector3 position = transform.position;
         position.y = 1;
 

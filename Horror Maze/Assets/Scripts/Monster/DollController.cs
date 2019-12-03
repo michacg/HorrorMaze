@@ -11,6 +11,10 @@ public class DollController : MonoBehaviour
     public TrapTrigger trapScript;
     public float lookSpeed = 10;
 
+    [SerializeField] float coolDown = 5f;
+    private bool respawnCoolDown = false;
+    private MeshRenderer dollRender;
+
     private GameObject player;
     private CharacterController controller;
     private static Vector3 deathOrigin;
@@ -67,6 +71,8 @@ public class DollController : MonoBehaviour
         trapLocations = GameManager.instance.GetTrapsTransforms();
         DistComparison comparer = new DistComparison();
         trapLocations.Sort(comparer);
+
+        dollRender = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     public void OnPathComplete(Path p)
@@ -94,7 +100,7 @@ public class DollController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canMove)
+        if (canMove && !respawnCoolDown)
         {
             trapLocations = GameManager.instance.GetTrapsTransforms();
             DistComparison comparer = new DistComparison();
@@ -235,15 +241,20 @@ public class DollController : MonoBehaviour
         Time.timeScale = 1;
         GetComponentInChildren<MeshRenderer>().enabled = true;
         trapScript.Respawn(player, transform.position);
-        //StartCoroutine(Respawn(player));
-
+        StartCoroutine(RespawnTimer());
     }
 
-    public IEnumerator Respawn(GameObject player)
+    public IEnumerator RespawnTimer()
     {
-        yield return new WaitForSecondsRealtime(1f);
-        
+        respawnCoolDown = true;
+        dollRender.enabled = false;
+        controller.enabled = false;
 
+        yield return new WaitForSeconds(coolDown);
+
+        respawnCoolDown = false;
+        dollRender.enabled = true;
+        controller.enabled = true;
     }
 
 

@@ -9,11 +9,16 @@ public class GhostController : MonoBehaviour
     public TrapTrigger trapScript;
     public float lookSpeed = 100;
 
+    [SerializeField] float coolDown = 5f;
+
     private CharacterController controller;
     private GameObject player;
     private Vector3 origin;
     private AudioSource audio1;
     private AudioSource audio2;
+
+    private MeshRenderer ghostRender;
+    private bool onCoolDown = false;
 
     //private Camera playerCamera;
 
@@ -25,6 +30,7 @@ public class GhostController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         origin = transform.position;
 
+        ghostRender = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -34,8 +40,8 @@ public class GhostController : MonoBehaviour
 
         //Debug.Log(playerCamera.transform.position);
 
-        GhostAI();
-         
+        if (!onCoolDown)
+            GhostAI();
     }
 
     private void GhostAI()
@@ -64,6 +70,19 @@ public class GhostController : MonoBehaviour
         controller.enabled = false;
         controller.transform.position = origin;
         controller.enabled = true;
+
+        StartCoroutine(RespawnTimer());
+    }
+
+    public IEnumerator RespawnTimer()
+    {
+        onCoolDown = true;
+        ghostRender.enabled = false;
+
+        yield return new WaitForSeconds(coolDown);
+
+        onCoolDown = false;
+        ghostRender.enabled = true;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -93,7 +112,7 @@ public class GhostController : MonoBehaviour
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         trapScript.Respawn(player, transform.position);
-        Destroy(this.gameObject);
+        Restart();
 
     }
 

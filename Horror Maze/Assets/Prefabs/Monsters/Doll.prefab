@@ -72,6 +72,7 @@ MonoBehaviour:
   trapScript: {fileID: 9023334500153889614, guid: 2a5c006cfeb1dfb4da6f89de29a1f4f7,
     type: 3}
   lookSpeed: 100
+  coolDown: 5
   nextWaypointDistance: 1
   reachedEndOfPath: 0
 --- !u!114 &4342884761270027141
