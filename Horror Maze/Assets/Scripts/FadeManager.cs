@@ -17,6 +17,7 @@ public class FadeManager : MonoBehaviour
 
     public float percentage = 0;
     public bool inDeath = false;
+    public int deathCount = 0;
 
     void Awake()
     {
@@ -43,7 +44,6 @@ public class FadeManager : MonoBehaviour
     {
         inDeath = true;
         bool hideWhite = false;
-        int lineSelection = Random.Range(0, storyLines.Length);
 
         while (true) //white flash upon stepping on a trap
         {
@@ -79,10 +79,19 @@ public class FadeManager : MonoBehaviour
         {
             percentage += 0.025f;
 
-            float currentValue = Mathf.Lerp(0, 1, percentage);
+            float currentValue = Mathf.Lerp(0, 0.75f, percentage); //middle value is maximum opacity
 
-            storyText.text = storyLines[lineSelection];
             deathScreen.color = new Color(deathScreen.color.r, deathScreen.color.g, deathScreen.color.b, currentValue);
+
+            if (deathCount < 20)
+            {
+                storyText.text = storyLines[deathCount]; //lines 1-20 get shown in order
+            }
+            else
+            {
+                storyText.text = "";
+            }
+            
             storyText.color = new Color(storyText.color.r, storyText.color.g, storyText.color.b, currentValue);
 
             if (percentage >= 1)
@@ -97,5 +106,6 @@ public class FadeManager : MonoBehaviour
         deathScreen.color = new Color(deathScreen.color.r, deathScreen.color.g, deathScreen.color.b, 0);
         storyText.color = new Color(storyText.color.r, storyText.color.g, storyText.color.b, 0);
         inDeath = false;
+        deathCount++;
     }
 }
